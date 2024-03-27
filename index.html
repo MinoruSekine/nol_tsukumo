@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="./nol_tsukumo.js"></script>
+<title>信長の野望online 九十九の源 計算機</title>
+</head>
+<body>
+
+  <h1>信長の野望online 九十九の源 計算機</h1>
+
+  <p>
+    <label for="current-level-input">現在の九十九レベル</label>
+    <input type="number" name="level" id="current-level-input" value="0" step="1" min="0" max="30">
+  </p>
+  <p>
+    <label for="xp-input">現在の経験値</label>
+    <input type="number" name="status" id="xp-input" value="0" step="1" min="0" max="200000">
+  </p>
+  <p>
+    <label for="expected-level-input">上げたい九十九レベル</label>
+    <input type="number" name="expected-level" id="expected-level-input" value="0" step="1" min="0" max="30">
+  </p>
+  <p>
+    <label for="tsukumo-gain-input">倍率</label>
+    <input type="number" name="tsukumo-gain" id="tsukumo-gain-input" value="1.0" step="0.5" min="1.0" max="1.5">
+    (通常時:x1.0, キャンペーン中:x1.5)
+  </p>
+
+  <p>
+    ↓
+  </p>
+
+  <p>
+    <label for="tsukumo-source-input">必要な九十九の源</label>
+    <input type="number" name="tsukumo-source" id="tsukumo-source-input" value="0" step="1" readonly>
+  </p>
+
+  <hr>
+
+  <p>
+    Version NolTsukumoVersion
+  </p>
+
+  <p>
+    GitHub: <a href="https://github.com/MinoruSekine/nol_tsukumo">Source</a> | <a href="https://github.com/MinoruSekine/nol_tsukumo/issues">Issue tracker</a>
+  </p>
+
+</body>
+</html>
