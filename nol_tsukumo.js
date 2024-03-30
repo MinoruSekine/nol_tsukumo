@@ -26,146 +26,153 @@
 /**
  * Get exp to next level.
  *
- * @param {number} current_level - Current level
+ * @param {number} level - Current level
  * @return {number} Exp to next level
  */
 function getExpToNextLevel(level) {
-    const kExpToNextLevel = [
-	500,
-	1135,
-	1642,
-	2285,
-	3102,
-	4139,
-	5456,
-	7130,
-	9255,
-	11935,
-	15381,
-	19734,
-	25262,
-	32282,
-	41199,
-	52522,
-	66903,
-	85167,
-	108362,
-	137820,
-	175231,
-	222744,
-	283085,
-	359717,
-	457041,
-	580642,
-	737615,
-	936971,
-	1190154,
-	1511695,
-	1920053
-    ];
+  const kExpToNextLevel = [
+    500,
+    1135,
+    1642,
+    2285,
+    3102,
+    4139,
+    5456,
+    7130,
+    9255,
+    11935,
+    15381,
+    19734,
+    25262,
+    32282,
+    41199,
+    52522,
+    66903,
+    85167,
+    108362,
+    137820,
+    175231,
+    222744,
+    283085,
+    359717,
+    457041,
+    580642,
+    737615,
+    936971,
+    1190154,
+    1511695,
+    1920053,
+  ];
 
-    return kExpToNextLevel[level];
+  return kExpToNextLevel[level];
 }
 
 /**
  * Calculate exp to specified level.
  *
- * @param {number} current_level - Current level
- * @param {number} current_exp - Current exp
- * @param {number} to_level - Level to raise
- * @return {number} Necessary exp to to_level
+ * @param {number} currentLevel - Current level
+ * @param {number} currentExp - Current exp
+ * @param {number} toLevel - Level to raise
+ * @return {number} Necessary exp to toLevel
  */
-function calcExpToSpecifiedLevel(current_level, current_exp, to_level) {
-    const expToNextLevel = getExpToNextLevel(current_level);
-    let exp = expToNextLevel - current_exp;
-    for (var level = current_level + 1; level < to_level; ++level) {
-	exp += getExpToNextLevel(level);
-    }
-    return exp;
+function calcExpToSpecifiedLevel(currentLevel, currentExp, toLevel) {
+  const expToNextLevel = getExpToNextLevel(currentLevel);
+  let exp = expToNextLevel - currentExp;
+  for (let level = currentLevel + 1; level < toLevel; ++level) {
+    exp += getExpToNextLevel(level);
+  }
+  return exp;
 }
 
 /**
  * Exp per a tsukumo source.
  *
  * @param {number} gain - Multiplier for exp, usually x1.0, and x1.5 in campaign
- * @param {number} active_tsukumo_num - Current activated number of tsukumo power
- * @return Exp per a tsukumo source
+ * @param {number} activeTsukumoNum - Current activated number of tsukumo power
+ * @return {number} Exp per a tsukumo source
  */
-function getExpPerATsukumoSource(gain, active_tsukumo_num) {
-    return 10 * gain * (active_tsukumo_num + 1);
+function getExpPerATsukumoSource(gain, activeTsukumoNum) {
+  return 10 * gain * (activeTsukumoNum + 1);
 }
 
 /**
  * Calculate number of tsukumo source to specified level.
  *
- * @param {number} current_level - Current level
- * @param {number} current_exp - Current exp
- * @param {number} to_level - Level to raise
+ * @param {number} currentLevel - Current level
+ * @param {number} currentExp - Current exp
+ * @param {number} activeTsukumoNum - Number of current active tsukumo power
+ * @param {number} toLevel - Level to raise
  * @param {number} gain - Multiplier for exp, usually x1.0, and x1.5 in campaign
- * @return {number} Number of necessary tsukumo source to to_level
+ * @return {number} Number of necessary tsukumo source to toLevel
  */
-function calcTsukumoSourceToSpecifiedLevel(current_level, current_exp, active_tsukumo_num, to_level, gain) {
-    return Math.ceil(calcExpToSpecifiedLevel(current_level, current_exp, to_level)
-		     / getExpPerATsukumoSource(gain, active_tsukumo_num));
+function calcTsukumoSourceToSpecifiedLevel(
+    currentLevel, currentExp, activeTsukumoNum, toLevel, gain) {
+  return Math.ceil(calcExpToSpecifiedLevel(currentLevel, currentExp, toLevel) /
+                   getExpPerATsukumoSource(gain, activeTsukumoNum));
 }
 
 /**
  * Validate current inputs to calculate.
  *
- * @param {number} current_level - Current level
- * @param {number} current_exp - Current exp
- * @param {number} to_level - Level to raise
+ * @param {number} currentLevel - Current level
+ * @param {number} currentExp - Current exp
+ * @param {number} toLevel - Level to raise
  * @return {boolean} Enabled to calculate or not
  */
-function isEnabledToCalculate(current_level, current_exp, to_level) {
-    return ((current_level < to_level)
-	    && (current_exp < getExpToNextLevel(current_level)));
+function isEnabledToCalculate(currentLevel, currentExp, toLevel) {
+  return ((currentLevel < toLevel) &&
+          (currentExp < getExpToNextLevel(currentLevel)));
 }
 
 /**
  * Update all elements on HTML by current inputs.
  */
 function update() {
-    const current_level = parseInt(document.getElementById('current-level-input').value, 10);
-    const current_exp = parseInt(document.getElementById('exp-input').value, 10);
-    const to_level = parseInt(document.getElementById('to-level-input').value, 10);
-    if (isEnabledToCalculate(current_level, current_exp, to_level)) {
-	const active_tsukumo_num = parseInt(document.getElementById('active-tsukumo-num-input').value, 10);
-	const gain = parseFloat(document.getElementById('tsukumo-gain-input').value, 10);
+  const currentLevel =
+    parseInt(document.getElementById('current-level-input').value, 10);
+  const currentExp = parseInt(document.getElementById('exp-input').value, 10);
+  const toLevel = parseInt(document.getElementById('to-level-input').value, 10);
+  if (isEnabledToCalculate(currentLevel, currentExp, toLevel)) {
+    const activeTsukumoNum =
+      parseInt(document.getElementById('active-tsukumo-num-input').value, 10);
+    const gain =
+      parseFloat(document.getElementById('tsukumo-gain-input').value, 10);
 
-	let exp_input = document.getElementById('tsukumo-exp-input');
-	exp_input.value = calcExpToSpecifiedLevel(current_level, current_exp, to_level);
-	let tsukumo_source_input = document.getElementById('tsukumo-source-input');
-	tsukumo_source_input.value =
-	    calcTsukumoSourceToSpecifiedLevel(current_level, current_exp, active_tsukumo_num, to_level, gain);
-    }
+    const expInput = document.getElementById('tsukumo-exp-input');
+    expInput.value = calcExpToSpecifiedLevel(currentLevel, currentExp, toLevel);
+    const tsukumoSourceInput = document.getElementById('tsukumo-source-input');
+    tsukumoSourceInput.value =
+      calcTsukumoSourceToSpecifiedLevel(
+          currentLevel, currentExp, activeTsukumoNum, toLevel, gain);
+  }
 }
 
 window.onload = () => {
-    let current_level_input = document.getElementById('current-level-input');
-    current_level_input.addEventListener('input', () => {
-	update();
-    });
-
-    let current_exp_input = document.getElementById('exp-input');
-    current_exp_input.addEventListener('input', () => {
-	update();
-    });
-
-    let active_tsukumo_num_input = document.getElementById('active-tsukumo-num-input');
-    active_tsukumo_num_input.addEventListener('input', () => {
-	update();
-    });
-
-    let to_level_input = document.getElementById('to-level-input');
-    to_level_input.addEventListener('input', () => {
-	update();
-    });
-
-    let tsukumo_gain_input = document.getElementById('tsukumo-gain-input');
-    tsukumo_gain_input.addEventListener('input', () => {
-	update();
-    });
-
+  const currentLevelInput = document.getElementById('current-level-input');
+  currentLevelInput.addEventListener('input', () => {
     update();
+  });
+
+  const currentExpInput = document.getElementById('exp-input');
+  currentExpInput.addEventListener('input', () => {
+    update();
+  });
+
+  const activeTsukumoNumInput =
+    document.getElementById('active-tsukumo-num-input');
+  activeTsukumoNumInput.addEventListener('input', () => {
+    update();
+  });
+
+  const toLevelInput = document.getElementById('to-level-input');
+  toLevelInput.addEventListener('input', () => {
+    update();
+  });
+
+  const tsukumoGainInput = document.getElementById('tsukumo-gain-input');
+  tsukumoGainInput.addEventListener('input', () => {
+    update();
+  });
+
+  update();
 };
