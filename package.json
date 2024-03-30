@@ -4,7 +4,9 @@
   "description": "Calculator source of tsukumo in Nobunaga's ambition Online",
   "main": "nol_tsukumo.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint -c google nol_tsukumo.js",
+    "doc": "jsdoc . -d out/site/jsdoc"
   },
   "keywords": [],
   "author": "Minoru Sekine",
