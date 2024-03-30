@@ -88,10 +88,11 @@ function calcExpToSpecifiedLevel(current_level, current_exp, to_level) {
  * Exp per a tsukumo source.
  *
  * @param {number} gain - Multiplier for exp, usually x1.0, and x1.5 in campaign
+ * @param {number} active_tsukumo_num - Current activated number of tsukumo power
  * @return Exp per a tsukumo source
  */
-function getExpPerATsukumoSource(gain) {
-    return 10 * gain;
+function getExpPerATsukumoSource(gain, active_tsukumo_num) {
+    return 10 * gain * (active_tsukumo_num + 1);
 }
 
 /**
@@ -103,9 +104,9 @@ function getExpPerATsukumoSource(gain) {
  * @param {number} gain - Multiplier for exp, usually x1.0, and x1.5 in campaign
  * @return {number} Number of necessary tsukumo source to to_level
  */
-function calcTsukumoSourceToSpecifiedLevel(current_level, current_exp, to_level, gain) {
+function calcTsukumoSourceToSpecifiedLevel(current_level, current_exp, active_tsukumo_num, to_level, gain) {
     return Math.ceil(calcExpToSpecifiedLevel(current_level, current_exp, to_level)
-		     / getExpPerATsukumoSource(gain));
+		     / getExpPerATsukumoSource(gain, active_tsukumo_num));
 }
 
 /**
@@ -129,12 +130,14 @@ function update() {
     const current_exp = parseInt(document.getElementById('exp-input').value, 10);
     const to_level = parseInt(document.getElementById('to-level-input').value, 10);
     if (isEnabledToCalculate(current_level, current_exp, to_level)) {
+	const active_tsukumo_num = parseInt(document.getElementById('active-tsukumo-num-input').value, 10);
 	const gain = parseFloat(document.getElementById('tsukumo-gain-input').value, 10);
 
 	let exp_input = document.getElementById('tsukumo-exp-input');
 	exp_input.value = calcExpToSpecifiedLevel(current_level, current_exp, to_level);
 	let tsukumo_source_input = document.getElementById('tsukumo-source-input');
-	tsukumo_source_input.value = calcTsukumoSourceToSpecifiedLevel(current_level, current_exp, to_level, gain);
+	tsukumo_source_input.value =
+	    calcTsukumoSourceToSpecifiedLevel(current_level, current_exp, active_tsukumo_num, to_level, gain);
     }
 }
 
@@ -146,6 +149,11 @@ window.onload = () => {
 
     let current_exp_input = document.getElementById('exp-input');
     current_exp_input.addEventListener('input', () => {
+	update();
+    });
+
+    let active_tsukumo_num_input = document.getElementById('active-tsukumo-num-input');
+    active_tsukumo_num_input.addEventListener('input', () => {
 	update();
     });
 
