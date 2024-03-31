@@ -1,0 +1,16 @@
+name: Test for make site
+
+on:
+  pull_request:
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Build site
+      run: |
+        make site

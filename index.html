@@ -14,12 +14,16 @@
     <input type="number" name="level" id="current-level-input" value="0" step="1" min="0" max="30">
   </p>
   <p>
-    <label for="xp-input">現在の経験値</label>
-    <input type="number" name="status" id="xp-input" value="0" step="1" min="0" max="200000">
+    <label for="exp-input">現在の経験値</label>
+    <input type="number" name="exp" id="exp-input" value="0" step="1" min="0" max="10000000">
   </p>
   <p>
-    <label for="expected-level-input">上げたい九十九レベル</label>
-    <input type="number" name="expected-level" id="expected-level-input" value="0" step="1" min="0" max="30">
+    <label for="active-tsukumo-num-input">現在発動中の九十九の力の数</label>
+    <input type="number" name="active-tsukumo-num" id="active-tsukumo-num-input" value="0" step="1" min="0" max="8">
+  </p>
+  <p>
+    <label for="to-level-input">上げたい九十九レベル</label>
+    <input type="number" name="to-level" id="to-level-input" value="1" step="1" min="1" max="30">
   </p>
   <p>
     <label for="tsukumo-gain-input">倍率</label>
@@ -32,8 +36,12 @@
   </p>
 
   <p>
+    <label for="tsukumo-exp-input">必要な経験値</label>
+    <input type="number" name="tsukumo-exp" id="tsukumo-exp-input" value="0" readonly>
+  </p>
+  <p>
     <label for="tsukumo-source-input">必要な九十九の源</label>
-    <input type="number" name="tsukumo-source" id="tsukumo-source-input" value="0" step="1" readonly>
+    <input type="number" name="tsukumo-source" id="tsukumo-source-input" value="0" readonly>
   </p>
 
   <hr>
