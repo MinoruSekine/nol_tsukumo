@@ -148,30 +148,18 @@ function update() {
 }
 
 window.onload = () => {
-  const currentLevelInput = document.getElementById('current-level-input');
-  currentLevelInput.addEventListener('input', () => {
-    update();
-  });
-
-  const currentExpInput = document.getElementById('exp-input');
-  currentExpInput.addEventListener('input', () => {
-    update();
-  });
-
-  const activeTsukumoNumInput =
-    document.getElementById('active-tsukumo-num-input');
-  activeTsukumoNumInput.addEventListener('input', () => {
-    update();
-  });
-
-  const toLevelInput = document.getElementById('to-level-input');
-  toLevelInput.addEventListener('input', () => {
-    update();
-  });
-
-  const tsukumoGainInput = document.getElementById('tsukumo-gain-input');
-  tsukumoGainInput.addEventListener('input', () => {
-    update();
+  const idToUpdateByChange = [
+    'current-level-input',
+    'exp-input',
+    'active-tsukumo-num-input',
+    'to-level-input',
+    'tsukumo-gain-input',
+  ];
+  idToUpdateByChange.forEach((id) => {
+    const input = document.getElementById(id);
+    input.addEventListener('input', () => {
+      update();
+    });
   });
 
   update();
