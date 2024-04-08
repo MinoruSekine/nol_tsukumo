@@ -12,6 +12,7 @@ SITE_OUT_JS := $(SITE_OUT_DIR)/$(JS_FILE_NAME)
 SITE_OUT_JSDOC_DIR := $(SITE_OUT_DIR)/jsdoc
 
 VERSION := $(shell git log -n 1 --pretty=format:"%H")
+DATETIME := $(shell git log -n 1 --pretty=format:"%ad")
 
 all: site
 
@@ -27,7 +28,7 @@ site:  $(SITE_OUT_HTML) $(SITE_OUT_JS) site-jsdoc
 
 $(SITE_OUT_HTML):
 	mkdir -p $(SITE_OUT_DIR)
-	sed 's/NolTsukumoVersion/$(VERSION)/g' $(SRC_HTML) > $(SITE_OUT_HTML)
+	sed -e 's/NolTsukumoVersion/$(VERSION)/g' -e 's/NolTsukumoDateTime/$(DATETIME)/g' $(SRC_HTML) > $(SITE_OUT_HTML)
 
 $(SITE_OUT_JS):
 	mkdir -p $(SITE_OUT_DIR)
