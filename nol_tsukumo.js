@@ -130,8 +130,21 @@ function isEnabledToCalculate(currentLevel, currentExp, toLevel) {
 function update() {
   const currentLevel =
     parseInt(document.getElementById('current-level-input').value, 10);
-  const currentExp = parseInt(document.getElementById('exp-input').value, 10);
-  const toLevel = parseInt(document.getElementById('to-level-input').value, 10);
+
+  const maxExpOfCurrentLevel = getExpToNextLevel(currentLevel) - 1;
+
+  const currentExpInput = document.getElementById('exp-input');
+  const currentExp =
+    Math.min(parseInt(currentExpInput.value, 10), maxExpOfCurrentLevel);
+  currentExpInput.max = maxExpOfCurrentLevel;
+  currentExpInput.value = currentExp;
+
+  const toLevelInput = document.getElementById('to-level-input');
+  const minToLevel = currentLevel + 1;
+  const toLevel = Math.max(parseInt(toLevelInput.value, 10), minToLevel);
+  toLevelInput.min = minToLevel;
+  toLevelInput.value = toLevel;
+
   if (isEnabledToCalculate(currentLevel, currentExp, toLevel)) {
     const activeTsukumoNum =
       parseInt(document.getElementById('active-tsukumo-num-input').value, 10);
