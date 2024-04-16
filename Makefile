@@ -41,7 +41,7 @@ site-jsdoc: setup-npm
 setup-npm:
 	npm install
 
-lint:
+lint: setup-npm
 	npm run lint
 
 .PHONY: all clean clean-out clean-site site site-jsdoc setup-npm lint
