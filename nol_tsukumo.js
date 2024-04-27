@@ -24,6 +24,27 @@
  */
 
 /**
+ * Tsukumo status of a weapon.
+ */
+class TsukumoStatus {
+  level;
+  exp;
+  numOfActivatedTsukumo;
+
+  /**
+   * Constructor.
+   * @param {number} level - Tsukumo level
+   * @param {number} exp - Tsukumo exp of level (not total exp)
+   * @param {number} numOfActivatedTsukumo - Number of activated Tsukumo power
+   */
+  constructor(level, exp, numOfActivatedTsukumo) {
+    this.level = level;
+    this.exp = exp;
+    this.numOfActivatedTsukumo = numOfActivatedTsukumo;
+  }
+}
+
+/**
  * Get exp to next level.
  *
  * @param {number} level - Current level
@@ -70,15 +91,14 @@ function getExpToNextLevel(level) {
 /**
  * Calculate exp to specified level.
  *
- * @param {number} currentLevel - Current level
- * @param {number} currentExp - Current exp
+ * @param {TsukumoStatus} currentStatus - Current Tsukumo status
  * @param {number} toLevel - Level to raise
  * @return {number} Necessary exp to toLevel
  */
-function calcExpToSpecifiedLevel(currentLevel, currentExp, toLevel) {
-  const expToNextLevel = getExpToNextLevel(currentLevel);
-  let exp = expToNextLevel - currentExp;
-  for (let level = currentLevel + 1; level < toLevel; ++level) {
+function calcExpToSpecifiedLevel(currentStatus, toLevel) {
+  const expToNextLevel = getExpToNextLevel(currentStatus.level);
+  let exp = expToNextLevel - currentStatus.exp;
+  for (let level = currentStatus.level + 1; level < toLevel; ++level) {
     exp += getExpToNextLevel(level);
   }
   return exp;
@@ -98,30 +118,28 @@ function getExpPerATsukumoSource(gain, activeTsukumoNum) {
 /**
  * Calculate number of tsukumo source to specified level.
  *
- * @param {number} currentLevel - Current level
- * @param {number} currentExp - Current exp
- * @param {number} activeTsukumoNum - Number of current active tsukumo power
+ * @param {TsukumoStatus} currentStatus - Current Tsukumo status
  * @param {number} toLevel - Level to raise
  * @param {number} gain - Multiplier for exp, usually x1.0, and x1.5 in campaign
  * @return {number} Number of necessary tsukumo source to toLevel
  */
-function calcTsukumoSourceToSpecifiedLevel(
-    currentLevel, currentExp, activeTsukumoNum, toLevel, gain) {
-  return Math.ceil(calcExpToSpecifiedLevel(currentLevel, currentExp, toLevel) /
-                   getExpPerATsukumoSource(gain, activeTsukumoNum));
+function calcTsukumoSourceToSpecifiedLevel(currentStatus, toLevel, gain) {
+  const requiredExp = calcExpToSpecifiedLevel(currentStatus, toLevel);
+  const expPerTsukumoSource =
+    getExpPerATsukumoSource(gain, currentStatus.numOfActivatedTsukumo);
+  return Math.ceil(requiredExp / expPerTsukumoSource);
 }
 
 /**
  * Validate current inputs to calculate.
  *
- * @param {number} currentLevel - Current level
- * @param {number} currentExp - Current exp
+ * @param {TsukumoStatus} currentStatus - Current Tsukumo status
  * @param {number} toLevel - Level to raise
  * @return {boolean} Enabled to calculate or not
  */
-function isEnabledToCalculate(currentLevel, currentExp, toLevel) {
-  return ((currentLevel < toLevel) &&
-          (currentExp < getExpToNextLevel(currentLevel)));
+function isEnabledToCalculate(currentStatus, toLevel) {
+  return ((currentStatus.level < toLevel) &&
+          (currentStatus.exp < getExpToNextLevel(currentStatus.level)));
 }
 
 /**
@@ -139,24 +157,27 @@ function update() {
   currentExpInput.max = maxExpOfCurrentLevel;
   currentExpInput.value = currentExp;
 
+  const activeTsukumoNum =
+    parseInt(document.getElementById('active-tsukumo-num-input').value, 10);
+
+  const currentStatus =
+    new TsukumoStatus(currentLevel, currentExp, activeTsukumoNum);
+
   const toLevelInput = document.getElementById('to-level-input');
   const minToLevel = currentLevel + 1;
   const toLevel = Math.max(parseInt(toLevelInput.value, 10), minToLevel);
   toLevelInput.min = minToLevel;
   toLevelInput.value = toLevel;
 
-  if (isEnabledToCalculate(currentLevel, currentExp, toLevel)) {
-    const activeTsukumoNum =
-      parseInt(document.getElementById('active-tsukumo-num-input').value, 10);
+  if (isEnabledToCalculate(currentStatus, toLevel)) {
     const gain =
       parseFloat(document.getElementById('tsukumo-gain-input').value, 10);
 
     const expInput = document.getElementById('tsukumo-exp-input');
-    expInput.value = calcExpToSpecifiedLevel(currentLevel, currentExp, toLevel);
+    expInput.value = calcExpToSpecifiedLevel(currentStatus, toLevel);
     const tsukumoSourceInput = document.getElementById('tsukumo-source-input');
     tsukumoSourceInput.value =
-      calcTsukumoSourceToSpecifiedLevel(
-          currentLevel, currentExp, activeTsukumoNum, toLevel, gain);
+      calcTsukumoSourceToSpecifiedLevel(currentStatus, toLevel, gain);
   }
 }
 
