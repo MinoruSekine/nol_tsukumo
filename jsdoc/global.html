@@ -104,7 +104,7 @@
     
 
     
-    <h4 class="name" id="calcExpToSpecifiedLevel"><span class="type-signature"></span>calcExpToSpecifiedLevel<span class="signature">(currentLevel, currentExp, toLevel)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id="calcExpToSpecifiedLevel"><span class="type-signature"></span>calcExpToSpecifiedLevel<span class="signature">(currentStatus, toLevel)</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
     
@@ -148,13 +148,13 @@
 
         <tr>
             
-                <td class="name"><code>currentLevel</code></td>
+                <td class="name"><code>currentStatus</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type"><a href="TsukumoStatus.html">TsukumoStatus</a></span>
 
 
             
@@ -164,30 +164,7 @@
 
             
 
-            <td class="description last">Current level</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>currentExp</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Current exp</td>
+            <td class="description last">Current Tsukumo status</td>
         </tr>
 
     
@@ -251,7 +228,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line78">line 78</a>
+        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -309,7 +286,7 @@
     
 
     
-    <h4 class="name" id="calcTsukumoSourceToSpecifiedLevel"><span class="type-signature"></span>calcTsukumoSourceToSpecifiedLevel<span class="signature">(currentLevel, currentExp, activeTsukumoNum, toLevel, gain)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id="calcTsukumoSourceToSpecifiedLevel"><span class="type-signature"></span>calcTsukumoSourceToSpecifiedLevel<span class="signature">(currentStatus, toLevel, gain)</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
     
@@ -353,13 +330,13 @@
 
         <tr>
             
-                <td class="name"><code>currentLevel</code></td>
+                <td class="name"><code>currentStatus</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type"><a href="TsukumoStatus.html">TsukumoStatus</a></span>
 
 
             
@@ -369,53 +346,7 @@
 
             
 
-            <td class="description last">Current level</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>currentExp</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Current exp</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>activeTsukumoNum</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Number of current active tsukumo power</td>
+            <td class="description last">Current Tsukumo status</td>
         </tr>
 
     
@@ -502,7 +433,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line108">line 108</a>
+        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -684,7 +615,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line94">line 94</a>
+        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line114">line 114</a>
     </li></ul></dd>
     
 
@@ -843,7 +774,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line32">line 32</a>
+        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line53">line 53</a>
     </li></ul></dd>
     
 
@@ -901,7 +832,7 @@
     
 
     
-    <h4 class="name" id="isEnabledToCalculate"><span class="type-signature"></span>isEnabledToCalculate<span class="signature">(currentLevel, currentExp, toLevel)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="isEnabledToCalculate"><span class="type-signature"></span>isEnabledToCalculate<span class="signature">(currentStatus, toLevel)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
 
     
@@ -945,13 +876,13 @@
 
         <tr>
             
-                <td class="name"><code>currentLevel</code></td>
+                <td class="name"><code>currentStatus</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type"><a href="TsukumoStatus.html">TsukumoStatus</a></span>
 
 
             
@@ -961,30 +892,7 @@
 
             
 
-            <td class="description last">Current level</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>currentExp</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Current exp</td>
+            <td class="description last">Current Tsukumo status</td>
         </tr>
 
     
@@ -1048,7 +956,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line122">line 122</a>
+        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -1158,7 +1066,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line130">line 130</a>
+        <a href="nol_tsukumo.js.html">nol_tsukumo.js</a>, <a href="nol_tsukumo.js.html#line148">line 148</a>
     </li></ul></dd>
     
 
@@ -1204,13 +1112,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#calcExpToSpecifiedLevel">calcExpToSpecifiedLevel</a></li><li><a href="global.html#calcTsukumoSourceToSpecifiedLevel">calcTsukumoSourceToSpecifiedLevel</a></li><li><a href="global.html#getExpPerATsukumoSource">getExpPerATsukumoSource</a></li><li><a href="global.html#getExpToNextLevel">getExpToNextLevel</a></li><li><a href="global.html#isEnabledToCalculate">isEnabledToCalculate</a></li><li><a href="global.html#update">update</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TsukumoStatus.html">TsukumoStatus</a></li></ul><h3>Global</h3><ul><li><a href="global.html#calcExpToSpecifiedLevel">calcExpToSpecifiedLevel</a></li><li><a href="global.html#calcTsukumoSourceToSpecifiedLevel">calcTsukumoSourceToSpecifiedLevel</a></li><li><a href="global.html#getExpPerATsukumoSource">getExpPerATsukumoSource</a></li><li><a href="global.html#getExpToNextLevel">getExpToNextLevel</a></li><li><a href="global.html#isEnabledToCalculate">isEnabledToCalculate</a></li><li><a href="global.html#update">update</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Apr 17 2024 09:24:27 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Apr 28 2024 03:27:50 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
