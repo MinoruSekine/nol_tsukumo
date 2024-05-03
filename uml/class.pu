@@ -1,0 +1,35 @@
+@startuml
+
+title 九十九の源計算機 クラス図
+
+class NolTsukumoApplication
+
+class NolTsukumoModel {
+  +setStatus(level : number, exp : number, numActivatedTsukumo : number)
+  +setToLevel(expectedLevel : number)
+  +setGain(gain : number)
+}
+class NolTsukumoModelObserverInterface {
+  +onUpdateExpOfCurrentLevel(exp : number, max : number)
+  +onUpdateToLevel(level : number, min : number)
+  +onUpdateNecessaryTsukumo(exp : number, level : number)
+}
+NolTsukumoModel o-- NolTsukumoModelObserverInterface
+
+class NolTsukumoView {
+}
+NolTsukumoModelObserverInterface <|.. NolTsukumoView
+NolTsukumoView --> NolTsukumoModel
+
+class NolTsukumoController {
+  +update()
+}
+NolTsukumoModelObserverInterface <|.. NolTsukumoController
+NolTsukumoController --> NolTsukumoModel
+
+NolTsukumoApplication o-- NolTsukumoModel
+NolTsukumoApplication o-- NolTsukumoView
+NolTsukumoApplication o-- NolTsukumoController
+
+
+@enduml

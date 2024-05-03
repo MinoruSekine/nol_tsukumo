@@ -1,0 +1,37 @@
+@startuml
+
+title 現在のレベル入力時のシーケンス図
+
+actor ユーザー as user
+participant HTML
+participant NolTsukumoController
+participant NolTsukumoView
+participant NolTsukumoModel
+
+user -> HTML++ : input event to current level
+                  HTML -> NolTsukumoController++ : updateCurrentLevel(level)
+                    NolTsukumoController -> NolTsukumoModel++ : setCurrentLevel(level)
+                      NolTsukumoModel -> NolTsukumoModel++ : currentStatus.level = level
+                      return
+                      NolTsukumoModel -> NolTsukumoView++ : onUpdateCurrentLevel(level)
+                              NolTsukumoView -> HTML++ : Update currentLevel
+                              return        
+                      return
+                      opt currentStatus.level >= toLevelMin
+                        NolTsukumoModel -> NolTsukumoModel++ : toLevelMin = currentStatus.level + 1
+                        return
+                        NolTsukumoModel -> NolTsukumoController++ : onUpdateToLevelMin(level)
+                          NolTsukumoController -> HTML++ : Update min of toLevel
+                          return        
+                        return
+                      end
+                      NolTsukumoModel -> NolTsukumoModel++ : notifyNecessaryTsukumo()
+                        ref over NolTsukumoModel, NolTsukumoView, HTML
+                          Notify necessary Tsukumo source and exp, and update view.
+                      end ref
+                      return
+                    return
+                  return    
+return
+
+@enduml
