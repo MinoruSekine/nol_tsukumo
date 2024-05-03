@@ -1,0 +1,25 @@
+@startuml
+
+title 必要な九十九経験値と源数を通知する
+
+actor ユーザー as user
+participant HTML
+participant NolTsukumoView
+participant NolTsukumoModel
+
+NolTsukumoModel -> NolTsukumoModel++ : notifyNecessaryTsukumo()
+  NolTsukumoModel -> NolTsukumoModel++ : exp = getExpToLevel(currentStatus, toLevel)
+  return
+  NolTsukumoModel -> NolTsukumoView++ : onUpdateNecessaryExp(exp)
+    NolTsukumoView -> HTML++ : Update value of necessary exp
+    return        
+  return
+  NolTsukumoModel -> NolTsukumoModel++ : source = exp / (10 * gain)
+  return
+  NolTsukumoModel -> NolTsukumoView++ : onUpdateNecessarySource(source)
+    NolTsukumoView -> HTML++ : Update value of necessary source
+    return        
+  return
+return
+
+@enduml

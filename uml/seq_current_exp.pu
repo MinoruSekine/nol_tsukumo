@@ -1,0 +1,30 @@
+@startuml
+
+title 現在の経験値入力時のシーケンス図
+
+actor ユーザー as user
+participant HTML
+participant NolTsukumoController
+participant NolTsukumoView
+participant NolTsukumoModel
+
+user -> HTML++ : input event to current exp
+  note left
+    発動中の九十九の力数、
+    上げたい九十九レベル、
+    倍率の入力時も同様
+  end note
+                  HTML -> NolTsukumoController++ : updateCurrentExp(exp)
+                    NolTsukumoController -> NolTsukumoModel++ : setCurrentExp(exp)
+                      NolTsukumoModel -> NolTsukumoModel++ : currentStatus.exp = exp
+                      return
+                      NolTsukumoModel -> NolTsukumoModel++ : notifyNecessaryTsukumo()
+                        ref over NolTsukumoModel, NolTsukumoView, HTML
+                          Notify necessary Tsukumo source and exp, and update view.
+                      end ref
+                      return
+                    return
+                  return    
+return
+
+@enduml
