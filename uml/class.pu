@@ -4,15 +4,19 @@ title 九十九の源計算機 クラス図
 
 class NolTsukumoApplication
 
-class NolTsukumoModel {
-  +setStatus(level : number, exp : number, numActivatedTsukumo : number)
-  +setToLevel(expectedLevel : number)
-  +setGain(gain : number)
-}
 class NolTsukumoModelObserverInterface {
   +onUpdateExpOfCurrentLevel(exp : number, max : number)
-  +onUpdateToLevel(level : number, min : number)
-  +onUpdateNecessaryTsukumo(exp : number, level : number)
+  +onUpdateToLevel(toLevel : number)
+  +onUpdateToLevelMin(toLevelMin : number)
+  +onUpdateNecessaryTsukumo(exp : number, source : number)
+}
+class NolTsukumoModel {
+  +setCurrentLevel(level : number)
+  +setCurrentExp(exp : number)
+  +setCurrentNumOfActivatedTsukumo(numActivatedTsukumo : number)
+  +setToLevel(expectedLevel : number)
+  +setGain(gain : number)
+  +registerObserver(observer : NolTsukumoModelObserverInterface)
 }
 NolTsukumoModel o-- NolTsukumoModelObserverInterface
 

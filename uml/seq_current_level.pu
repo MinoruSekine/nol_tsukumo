@@ -15,15 +15,33 @@ user -> HTML++ : input event to current level
                       return
                       NolTsukumoModel -> NolTsukumoView++ : onUpdateCurrentLevel(level)
                               NolTsukumoView -> HTML++ : Update currentLevel
-                              return        
+                              return
                       return
-                      opt currentStatus.level >= toLevelMin
-                        NolTsukumoModel -> NolTsukumoModel++ : toLevelMin = currentStatus.level + 1
+                      NolTsukumoModel -> NolTsukumoView++ : onUpdateExpToNextLevel(0)
+                        NolTsukumoView -> HTML++ : Update exp to next level
                         return
-                        NolTsukumoModel -> NolTsukumoController++ : onUpdateToLevelMin(level)
+                      return
+                      NolTsukumoModel -> NolTsukumoModel++ : max = getExpToNextLevel(level) - 1
+                      return
+                      NolTsukumoModel -> NolTsukumoController++ : onUpdateMaxExpToNextLevel(maxExp)
+                        NolTsukumoController -> HTML++ : Update max exp to next level
+                        return
+                      return
+                      opt currentStatus.level >= this.toLevelMin
+                        NolTsukumoModel -> NolTsukumoModel++ : this.toLevelMin = currentStatus.level + 1
+                        return
+                        NolTsukumoModel -> NolTsukumoController++ : onUpdateToLevelMin(this.toLevelMin)
                           NolTsukumoController -> HTML++ : Update min of toLevel
                           return        
                         return
+                        opt toLevel < toLevelMin
+                          NolTsukumoModel -> NolTsukumoModel++ : toLevel = toLevelMin
+                          return
+                          NolTsukumoModel -> NolTsukumoController++ : onUpdateToLevel(toLevel)
+                            NolTsukumoController -> HTML++ : Update current toLevel
+                            return        
+                          return
+                        end
                       end
                       NolTsukumoModel -> NolTsukumoModel++ : notifyNecessaryTsukumo()
                         ref over NolTsukumoModel, NolTsukumoView, HTML
