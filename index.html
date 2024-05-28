@@ -10,40 +10,50 @@
 
   <h1>信長の野望online 九十九の源 計算機</h1>
 
-  <p>
-    <label for="current-level-input">現在の九十九レベル</label>
-    <input type="number" name="level" id="current-level-input" value="0" step="1" min="0" max="30">
-  </p>
-  <p>
-    <label for="exp-input">現在の経験値</label>
-    <input type="number" name="exp" id="exp-input" value="0" step="1" min="0" max="499">
-  </p>
-  <p>
-    <label for="active-tsukumo-num-input">現在発動中の九十九の力の数</label>
-    <input type="number" name="active-tsukumo-num" id="active-tsukumo-num-input" value="0" step="1" min="0" max="8">
-  </p>
-  <p>
-    <label for="to-level-input">上げたい九十九レベル</label>
-    <input type="number" name="to-level" id="to-level-input" value="1" step="1" min="1" max="31">
-  </p>
-  <p>
-    <label for="tsukumo-gain-input">倍率</label>
-    <input type="number" name="tsukumo-gain" id="tsukumo-gain-input" value="1.0" step="0.1" min="1.0" max="2.0">
-    (通常時:x1.0, 九十九キャンペーン中:x1.5, もののふの日ボーナス最大:x2.0)
-  </p>
+  <h2>武器の現状</h2>
+  <ul>
+    <li>
+      <label for="current-level-input">九十九レベル</label>
+      <input type="number" name="level" id="current-level-input" value="0" step="1" min="0" max="30">
+    </li>
+    <li>
+      <label for="exp-input">九十九経験値</label>
+      <input type="number" name="exp" id="exp-input" value="0" step="1" min="0" max="499">
+    </li>
+    <li>
+      <label for="active-tsukumo-num-input">九十九発動数</label>
+      <input type="number" name="active-tsukumo-num" id="active-tsukumo-num-input" value="0" step="1" min="0" max="8">
+    </li>
+  </ul>
+
+  <h2>ターゲット</h2>
+  <ul>
+    <li>
+      <label for="to-level-input">上げたい九十九レベル</label>
+      <input type="number" name="to-level" id="to-level-input" value="1" step="1" min="1" max="31">
+    </li>
+    <li>
+      <label for="tsukumo-gain-input">倍率</label>
+      <input type="number" name="tsukumo-gain" id="tsukumo-gain-input" value="1.0" step="0.1" min="1.0" max="2.0">
+      (通常時:x1.0, 九十九キャンペーン中:x1.5, もののふの日ボーナス最大:x2.0)
+    </li>
+  </ul>
 
   <p class="in_to_out_arrow">
     ↓
   </p>
 
-  <p>
-    <label for="tsukumo-exp-input">必要な経験値</label>
-    <input type="number" name="tsukumo-exp" id="tsukumo-exp-input" value="0" min="0" max="9999999" readonly>
-  </p>
-  <p>
-    <label for="tsukumo-source-input">必要な九十九の源</label>
-    <input type="number" name="tsukumo-source" id="tsukumo-source-input" value="0" min="0" max="999999" readonly>
-  </p>
+  <h2>必要な九十九</h2>
+  <ul>
+    <li>
+      <label for="tsukumo-source-input">必要な九十九の源</label>
+      <input type="number" name="tsukumo-source" id="tsukumo-source-input" value="0" min="0" max="999999" readonly>
+    </li>
+    <li>
+      <label for="tsukumo-exp-input">必要な経験値</label>
+      <input type="number" name="tsukumo-exp" id="tsukumo-exp-input" value="0" min="0" max="9999999" readonly>
+    </li>
+  </ul>
 
   <hr>
 
