@@ -27,7 +27,7 @@ clean-out: clean-site
 clean-site:
 	rm -rf $(SITE_OUT_DIR)
 
-site:  $(SITE_OUT_HTML) $(SITE_OUT_JS) site-jsdoc
+site:  $(SITE_OUT_HTML) $(SITE_OUT_JS) $(SITE_OUT_CSS) site-jsdoc
 
 $(SITE_OUT_HTML): $(SRC_HTML)
 	mkdir -p $(SITE_OUT_DIR)
@@ -35,11 +35,11 @@ $(SITE_OUT_HTML): $(SRC_HTML)
 
 $(SITE_OUT_CSS): $(SRC_CSS)
 	mkdir -p $(SITE_OUT_DIR)
-	cp $(SRC_JS) $(SITE_OUT_JS)
+	cp $(SRC_CSS) $(SITE_OUT_CSS)
 
 $(SITE_OUT_JS): $(SRC_JS)
 	mkdir -p $(SITE_OUT_DIR)
-	cp $(SRC_CSS) $(SITE_OUT_CSS)
+	cp $(SRC_JS) $(SITE_OUT_JS)
 
 site-jsdoc: setup-npm
 	mkdir -p $(SITE_OUT_JSDOC_DIR)
