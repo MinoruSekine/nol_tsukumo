@@ -1,3 +1,18 @@
 p.in_to_out_arrow {
     text-indent: 4em
 }
+
+span.input{
+    display: inline-block;
+    width: 8em
+}
+
+span.target{
+    display: inline-block;
+    width: 10em
+}
+
+span.result{
+    display: inline-block;
+    width: 10em
+}
