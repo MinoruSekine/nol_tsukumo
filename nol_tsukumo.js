@@ -26,7 +26,7 @@
 /**
  * Tsukumo status of a weapon.
  */
-class TsukumoStatus {
+class NolTsukumoStatus {
   level;
   exp;
   numOfActivatedTsukumo;
@@ -91,7 +91,7 @@ function getExpToNextLevel(level) {
 /**
  * Calculate exp to specified level.
  *
- * @param {TsukumoStatus} currentStatus - Current Tsukumo status
+ * @param {NolTsukumoStatus} currentStatus - Current Tsukumo status
  * @param {number} toLevel - Level to raise
  * @return {number} Necessary exp to toLevel
  */
@@ -118,7 +118,7 @@ function getExpPerATsukumoSource(gain, activeTsukumoNum) {
 /**
  * Calculate number of tsukumo source to specified level.
  *
- * @param {TsukumoStatus} currentStatus - Current Tsukumo status
+ * @param {NolTsukumoStatus} currentStatus - Current Tsukumo status
  * @param {number} toLevel - Level to raise
  * @param {number} gain - Multiplier for exp, usually x1.0, and x1.5 in campaign
  * @return {number} Number of necessary tsukumo source to toLevel
@@ -131,70 +131,326 @@ function calcTsukumoSourceToSpecifiedLevel(currentStatus, toLevel, gain) {
 }
 
 /**
- * Validate current inputs to calculate.
- *
- * @param {TsukumoStatus} currentStatus - Current Tsukumo status
- * @param {number} toLevel - Level to raise
- * @return {boolean} Enabled to calculate or not
+ * Interface to observe NolTsukumoModel.
  */
-function isEnabledToCalculate(currentStatus, toLevel) {
-  return ((currentStatus.level < toLevel) &&
-          (currentStatus.exp < getExpToNextLevel(currentStatus.level)));
-}
-
-/**
- * Update all elements on HTML by current inputs.
- */
-function update() {
-  const currentLevel =
-    parseInt(document.getElementById('current-level-input').value, 10);
-
-  const maxExpOfCurrentLevel = getExpToNextLevel(currentLevel) - 1;
-
-  const currentExpInput = document.getElementById('exp-input');
-  const currentExp =
-    Math.min(parseInt(currentExpInput.value, 10), maxExpOfCurrentLevel);
-  currentExpInput.max = maxExpOfCurrentLevel;
-  currentExpInput.value = currentExp;
-
-  const activeTsukumoNum =
-    parseInt(document.getElementById('active-tsukumo-num-input').value, 10);
-
-  const currentStatus =
-    new TsukumoStatus(currentLevel, currentExp, activeTsukumoNum);
-
-  const toLevelInput = document.getElementById('to-level-input');
-  const minToLevel = currentLevel + 1;
-  const toLevel = Math.max(parseInt(toLevelInput.value, 10), minToLevel);
-  toLevelInput.min = minToLevel;
-  toLevelInput.value = toLevel;
-
-  if (isEnabledToCalculate(currentStatus, toLevel)) {
-    const gain =
-      parseFloat(document.getElementById('tsukumo-gain-input').value, 10);
-
-    const expInput = document.getElementById('tsukumo-exp-input');
-    expInput.value = calcExpToSpecifiedLevel(currentStatus, toLevel);
-    const tsukumoSourceInput = document.getElementById('tsukumo-source-input');
-    tsukumoSourceInput.value =
-      calcTsukumoSourceToSpecifiedLevel(currentStatus, toLevel, gain);
+class NolTsukumoModelObserverInterface {
+  /**
+   * Call when current exp has been updated.
+   * @param {number} exp - Updated current exp
+   */
+  onUpdateCurrentExp(exp) {
+  }
+  /**
+   * Call when current level has been updated.
+   * @param {number} level - Updated current level
+   */
+  onUpdateCurrentLevel(level) {
+  }
+  /**
+   * Call when max exp of current level has been updated.
+   * @param {number} maxExp - Updated max exp of current level
+   */
+  onUpdateMaxExpOfCurrentLevel(maxExp) {
+  }
+  /**
+   * Call when to level has been updated.
+   * @param {number} toLevel - Updated "to level"
+   */
+  onUpdateToLevel(toLevel) {
+  }
+  /**
+   * Call when min of to level has been updated.
+   * @param {number} toLevelMin - Updated min of "to level"
+   */
+  onUpdateToLevelMin(toLevelMin) {
+  }
+  /**
+   * Call when necessary tsukumo exp and number of source have been updated.
+   * @param {number} exp - Updated exp to specified level.
+   * @param {number} source - Updated number of source to specified level.
+   */
+  onUpdateNecessaryTsukumo(exp, source) {
   }
 }
 
-window.onload = () => {
-  const idToUpdateByChange = [
-    'current-level-input',
-    'exp-input',
-    'active-tsukumo-num-input',
-    'to-level-input',
-    'tsukumo-gain-input',
-  ];
-  idToUpdateByChange.forEach((id) => {
-    const input = document.getElementById(id);
-    input.addEventListener('input', () => {
-      update();
+/**
+ * Model of Nol Tsukumo calculator.
+ */
+class NolTsukumoModel {
+  #currentStatus = new NolTsukumoStatus(0, 0, 0);
+  #toLevel = 1;
+  #toLevelMin = 1;
+  #gain = 1.0;
+  #observers = [];
+  /**
+   * Notify necessary Tsukumo exp and sources to observers.
+   */
+  #notifyNecessaryTsukumo() {
+    const currentStatus = this.#currentStatus;
+    const toLevel = this.#toLevel;
+    const gain = this.#gain;
+    const necessaryExp = calcExpToSpecifiedLevel(currentStatus, toLevel);
+    const necessarySource =
+          calcTsukumoSourceToSpecifiedLevel(currentStatus, toLevel, gain);
+    this.#observers.forEach((observer) => {
+      observer.onUpdateNecessaryTsukumo(necessaryExp, necessarySource);
     });
-  });
+  }
+  /**
+   * Initialize model instance.
+   */
+  initialize() {
+    this.setCurrentLevel(0);
+    this.setCurrentExp(0);
+    this.setCurrentNumOfActuvatedTsukumo(0);
+    this.setToLevel(1);
+    this.setGain(1.0);
+  }
+  /**
+   * Set current Tsukmo level.
+   * @param {number} level - Current Tsukumo level
+   */
+  setCurrentLevel(level) {
+    this.#currentStatus.level = level;
+    this.#currentStatus.maxExpOfCurrentLevel = getExpToNextLevel(level);
+    this.#observers.forEach((observer) => {
+      observer.onUpdateCurrentLevel(level);
 
-  update();
+      const max = getExpToNextLevel(level) - 1;
+      observer.onUpdateMaxExpOfCurrentLevel(max);
+
+      if (this.#currentStatus.level >= this.#toLevelMin) {
+        this.#toLevelMin = this.#currentStatus.level + 1;
+        observer.onUpdateToLevelMin(this.#toLevelMin);
+        if (this.#toLevel < this.#toLevelMin) {
+          this.#toLevel = this.#toLevelMin;
+          observer.onUpdateToLevel(this.#toLevel);
+        }
+      }
+    });
+    this.#notifyNecessaryTsukumo();
+  }
+  /**
+   * Set current Tsukmo exp.
+   * @param {number} exp - Current Tsukumo exp
+   */
+  setCurrentExp(exp) {
+    this.#currentStatus.exp = exp;
+    this.#notifyNecessaryTsukumo();
+  }
+  /**
+   * Set current Tsukmo exp.
+   * @param {number} numOfActivatedTsukumo - Current number of activated tsukmo
+   */
+  setCurrentNumOfActuvatedTsukumo(numOfActivatedTsukumo) {
+    this.#currentStatus.numOfActivatedTsukumo = numOfActivatedTsukumo;
+    this.#notifyNecessaryTsukumo();
+  }
+  /**
+   * Set "to level".
+   * @param {number} level - Expected "to level".
+   */
+  setToLevel(level) {
+    this.#toLevel = level;
+    this.#notifyNecessaryTsukumo();
+  }
+  /**
+   * Set gain of tsukumo source into tsukumo exp.
+   * @param {number} gain - Gain of tsukumo source into tsukumo exp
+   */
+  setGain(gain) {
+    this.#gain = gain;
+    this.#notifyNecessaryTsukumo();
+  }
+  /**
+   * Register observer of model.
+   * @param {NolTsukumoModelObserverInterface} observer - Observer to Register.
+   */
+  registerObserver(observer) {
+    this.#observers.push(observer);
+  }
+}
+
+/**
+ * View of Nol Tsukumo calculator.
+ */
+class NolTsukumoView extends NolTsukumoModelObserverInterface {
+  #currentExpInput = null;
+  #toLevelInput = null;
+  #necessaryExpInput = null;
+  #necessarySourceInput = null;
+
+  /**
+   * Constructor of view.
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Initialize instance of view.
+   * @param {NolTsukumoModel} model - Instance of model
+   */
+  initialize(model) {
+    this.#currentExpInput = document.getElementById('exp-input');
+    this.#toLevelInput = document.getElementById('to-level-input');
+    this.#necessaryExpInput = document.getElementById('tsukumo-exp-input');
+    this.#necessarySourceInput =
+      document.getElementById('tsukumo-source-input');
+
+    model.registerObserver(this);
+  }
+  /**
+   * Call when current exp has been updated.
+   * @param {number} exp - Updated max exp of current level
+   */
+  onUpdateCurrentExp(exp) {
+    this.#currentExpInput.value = exp;
+  }
+  /**
+   * Call when current level has been updated.
+   * @param {number} level - Updated current level
+   */
+  onUpdateCurrentLevel(level) {
+  }
+  /**
+   * Call when max exp of current level has been updated.
+   * @param {number} maxExp - Updated max exp of current level
+   */
+  onUpdateMaxExpOfCurrentLevel(maxExp) {
+  }
+  /**
+   * Call when to level has been updated.
+   * @param {number} toLevel - Updated "to level"
+   */
+  onUpdateToLevel(toLevel) {
+    this.#toLevelInput.value = toLevel;
+  }
+  /**
+   * Call when min of to level has been updated.
+   * @param {number} toLevelMin - Updated min of "to level"
+   */
+  onUpdateToLevelMin(toLevelMin) {
+  }
+  /**
+   * Call when necessary tsukumo exp and number of source have been updated.
+   * @param {number} exp - Updated exp to specified level.
+   * @param {number} source - Updated number of source to specified level.
+   */
+  onUpdateNecessaryTsukumo(exp, source) {
+    this.#necessaryExpInput.value = exp;
+    this.#necessarySourceInput.value = source;
+  }
+}
+
+/**
+ * Controller of Nol Tsukumo calculator.
+ */
+class NolTsukumoController extends NolTsukumoModelObserverInterface {
+  #toLevelInput = null;
+  #currentLevelInput = null;
+  #currentExpInput = null;
+  #currentNumOfActivatedTsukumo = null;
+  #gainInput = null;
+
+  #model = null;
+
+  /**
+   * Constructor of NolTsukumoController.
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Initialize instance of controller.
+   * @param {NolTsukumoModel} model - Instance of model.
+   */
+  initialize(model) {
+    this.#toLevelInput = document.getElementById('to-level-input');
+    this.#currentLevelInput = document.getElementById('current-level-input');
+    this.#currentExpInput = document.getElementById('exp-input');
+    this.#currentNumOfActivatedTsukumo =
+      document.getElementById('active-tsukumo-num-input');
+    this.#gainInput = document.getElementById('tsukumo-gain-input');
+
+    this.#model = model;
+    this.#model.registerObserver(this);
+
+    this.#currentLevelInput.addEventListener('input', () => {
+      this.#model.setCurrentLevel(parseInt(this.#currentLevelInput.value, 10));
+    });
+
+    this.#currentExpInput.addEventListener('input', () => {
+      this.#model.setCurrentExp(parseInt(this.#currentExpInput.value, 10));
+    });
+
+    this.#currentNumOfActivatedTsukumo.addEventListener('input', () => {
+      const numActivated =
+            parseInt(this.#currentNumOfActivatedTsukumo.value, 10);
+      this.#model.setCurrentNumOfActuvatedTsukumo(numActivated);
+    });
+
+    this.#toLevelInput.addEventListener('input', () => {
+      this.#model.setToLevel(parseInt(this.#toLevelInput.value, 10));
+    });
+
+    this.#gainInput.addEventListener('input', () => {
+      const gain = parseFloat(this.#gainInput.value);
+      this.#model.setGain(gain);
+      // Do not omit ".0" even if just integer value.
+      this.#gainInput.value = gain.toFixed(1);
+    });
+  }
+  /**
+   * Call when current exp has been updated.
+   * @param {number} exp - Updated max exp of current level
+   */
+  onUpdateCurrentExp(exp) {
+  }
+  /**
+   * Call when current level has been updated.
+   * @param {number} level - Updated current level
+   */
+  onUpdateCurrentLevel(level) {
+    this.#toLevelInput.min = level + 1;
+  }
+  /**
+   * Call when max exp of current level has been updated.
+   * @param {number} maxExp - Updated max exp of current level
+   */
+  onUpdateMaxExpOfCurrentLevel(maxExp) {
+    this.#currentExpInput.max = maxExp;
+    if (parseInt(this.#currentExpInput.value, 10) > maxExp) {
+      this.#currentExpInput.value = maxExp;
+    }
+  }
+  /**
+   * Call when to level has been updated.
+   * @param {number} toLevel - Updated "to level"
+   */
+  onUpdateToLevel(toLevel) {
+  }
+  /**
+   * Call when min of to level has been updated.
+   * @param {number} toLevelMin - Updated min of "to level"
+   */
+  onUpdateToLevelMin(toLevelMin) {
+    this.#toLevelInput.min = toLevelMin;
+  }
+  /**
+   * Call when necessary tsukumo exp and number of source have been updated.
+   * @param {number} exp - Updated exp to specified level.
+   * @param {number} source - Updated number of source to specified level.
+   */
+  onUpdateNecessaryTsukumo(exp, source) {
+  }
+}
+
+const gModel = new NolTsukumoModel();
+const gView = new NolTsukumoView();
+const gController = new NolTsukumoController();
+
+window.onload = () => {
+  gView.initialize(gModel);
+  gController.initialize(gModel);
+  gModel.initialize();
 };
