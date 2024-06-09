@@ -394,7 +394,10 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
     });
 
     this.#gainInput.addEventListener('input', () => {
-      this.#model.setGain(parseFloat(this.#gainInput.value));
+      const gain = parseFloat(this.#gainInput.value);
+      this.#model.setGain(gain);
+      // Do not omit ".0" even if just integer value.
+      this.#gainInput.value = gain.toFixed(1);
     });
   }
   /**
