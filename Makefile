@@ -14,7 +14,7 @@ SITE_OUT_CSS := $(SITE_OUT_DIR)/$(CSS_FILE_NAME)
 SITE_OUT_JS := $(SITE_OUT_DIR)/$(JS_FILE_NAME)
 SITE_OUT_JSDOC_DIR := $(SITE_OUT_DIR)/jsdoc
 
-VERSION := $(shell git log -n 1 --pretty=format:"%H")
+VERSION := $(shell git log -n 1 --pretty=format:"%h")
 DATETIME := $(shell git log -n 1 --pretty=format:"%ad")
 
 all: site
