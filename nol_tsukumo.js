@@ -42,6 +42,26 @@ class NolTsukumoStatus {
     this.exp = exp;
     this.numOfActivatedTsukumo = numOfActivatedTsukumo;
   }
+  /**
+   * Convert status into string.
+   * @return {string} String converted from this instance's status
+   */
+  toString() {
+    let convertedString = '現在の九十九レベル:';
+    convertedString += String(this.level);
+
+    convertedString += ',';
+
+    convertedString += '経験値:';
+    convertedString += String(this.exp);
+
+    convertedString += ',';
+
+    convertedString += '発動数:';
+    convertedString += String(this.numOfActivatedTsukumo);
+
+    return convertedString;
+  }
 }
 
 /**
@@ -171,6 +191,17 @@ class NolTsukumoModelObserverInterface {
    */
   onUpdateNecessaryTsukumo(exp, source) {
   }
+  /**
+   * Call to notify status requested by NolTsukumoModel::requestCurrentResult().
+   * @param {NolTsukumoStatus} currentStatus - Current status of tsukmo
+   * @param {number} toLevel - Expected level
+   * @param {number} gain - Gain
+   * @param {number} tsukumoExp - Necessary tsukumo exp to toLevel
+   * @param {number} tsukumoSource - Necessary tsukumo soruce to toLevel
+   */
+  onNotifyRequestedCurrentResult(
+      currentStatus, toLevel, gain, tsukumoExp, tsukumoSource) {
+  }
 }
 
 /**
@@ -263,6 +294,23 @@ class NolTsukumoModel {
     this.#notifyNecessaryTsukumo();
   }
   /**
+   * Request calculation result of current configurations.
+   * Result will be notified via
+   * NolTsukumoModelObserverInterface::onNotifyRequestedCurrentResult().
+   */
+  requestCurrentResult() {
+    this.#observers.forEach((observer) => {
+      const necessaryExp =
+            calcExpToSpecifiedLevel(this.#currentStatus, this.#toLevel);
+      const necessarySource =
+            calcTsukumoSourceToSpecifiedLevel(
+                this.#currentStatus, this.#toLevel, this.#gain);
+      observer.onNotifyRequestedCurrentResult(
+          this.#currentStatus, this.#toLevel, this.#gain,
+          necessaryExp, necessarySource);
+    });
+  }
+  /**
    * Register observer of model.
    * @param {NolTsukumoModelObserverInterface} observer - Observer to Register.
    */
@@ -343,6 +391,80 @@ class NolTsukumoInOutView extends NolTsukumoModelObserverInterface {
 }
 
 /**
+ * View of log area on Nol Tsukumo calculator.
+ */
+class NolTsukumoLogView extends NolTsukumoModelObserverInterface {
+  #logTextarea = null;
+  /**
+   * Add text to log area.
+   * @param {string} textToAdd - Text to add into log area.
+   */
+  #addTextToLogArea(textToAdd) {
+    let currentText = this.#logTextarea.value;
+    if (currentText) {
+      currentText += '\n';
+    }
+    this.#logTextarea.value = currentText + textToAdd;
+  }
+
+  /**
+   * Scroll log area to bottom.
+   */
+  #scrollLogAreaToBottom() {
+    this.#logTextarea.scrollTop = this.#logTextarea.scrollHeight;
+  }
+
+  /**
+   * Constructor of view.
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Initialize instance of view.
+   * @param {NolTsukumoModel} model - Instance of model
+   */
+  initialize(model) {
+    this.#logTextarea = document.getElementById('log-textarea');
+
+    model.registerObserver(this);
+  }
+  /**
+   * Call to notify status requested by NolTsukumoModel::requestCurrentResult().
+   * @param {NolTsukumoStatus} currentStatus - Current status of tsukmo
+   * @param {number} toLevel - Expected level
+   * @param {number} gain - Gain
+   * @param {number} tsukumoExp - Necessary tsukumo exp to toLevel
+   * @param {number} tsukumoSource - Necessary tsukumo soruce to toLevel
+   */
+  onNotifyRequestedCurrentResult(
+      currentStatus, toLevel, gain, tsukumoExp, tsukumoSource) {
+    let text = currentStatus.toString();
+    text += '\n';
+
+    text += '目標レベル:';
+    text += String(toLevel);
+    text += ',';
+    text += '倍率:';
+    text += String(gain.toFixed(1));
+    text += '\n';
+
+    text += '　　　　↓\n';
+
+    text += '必要な九十九の源:';
+    text += String(tsukumoSource);
+    text += ',';
+    text += '経験値:';
+    text += String(tsukumoExp);
+    text += '\n';
+
+    this.#addTextToLogArea(text);
+
+    this.#scrollLogAreaToBottom();
+  }
+}
+
+/**
  * Controller of Nol Tsukumo calculator.
  */
 class NolTsukumoController extends NolTsukumoModelObserverInterface {
@@ -351,6 +473,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
   #currentExpInput = null;
   #currentNumOfActivatedTsukumo = null;
   #gainInput = null;
+  #memoButton = null;
 
   #model = null;
 
@@ -371,6 +494,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
     this.#currentNumOfActivatedTsukumo =
       document.getElementById('active-tsukumo-num-input');
     this.#gainInput = document.getElementById('tsukumo-gain-input');
+    this.#memoButton = document.getElementById('memo-button');
 
     this.#model = model;
     this.#model.registerObserver(this);
@@ -398,6 +522,10 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
       this.#model.setGain(gain);
       // Do not omit ".0" even if just integer value.
       this.#gainInput.value = gain.toFixed(1);
+    });
+
+    this.#memoButton.addEventListener('click', () => {
+      this.#model.requestCurrentResult();
     });
   }
   /**
@@ -447,10 +575,13 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
 
 const gModel = new NolTsukumoModel();
 const gInOutView = new NolTsukumoInOutView();
+const gLogView = new NolTsukumoLogView();
 const gController = new NolTsukumoController();
 
 window.onload = () => {
   gInOutView.initialize(gModel);
+  gLogView.initialize(gModel);
   gController.initialize(gModel);
   gModel.initialize();
 };
+
