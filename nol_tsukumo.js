@@ -272,9 +272,9 @@ class NolTsukumoModel {
 }
 
 /**
- * View of Nol Tsukumo calculator.
+ * View of In/Out area on Nol Tsukumo calculator.
  */
-class NolTsukumoView extends NolTsukumoModelObserverInterface {
+class NolTsukumoInOutView extends NolTsukumoModelObserverInterface {
   #currentExpInput = null;
   #toLevelInput = null;
   #necessaryExpInput = null;
@@ -446,11 +446,11 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
 }
 
 const gModel = new NolTsukumoModel();
-const gView = new NolTsukumoView();
+const gInOutView = new NolTsukumoInOutView();
 const gController = new NolTsukumoController();
 
 window.onload = () => {
-  gView.initialize(gModel);
+  gInOutView.initialize(gModel);
   gController.initialize(gModel);
   gModel.initialize();
 };
