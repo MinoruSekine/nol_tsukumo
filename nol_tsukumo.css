@@ -16,3 +16,7 @@ span.result{
     display: inline-block;
     width: 10em
 }
+textarea.log{
+    width: 24em;
+    height: 14em
+}
