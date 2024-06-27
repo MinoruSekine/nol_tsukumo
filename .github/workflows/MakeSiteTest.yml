@@ -13,4 +13,4 @@ jobs:
 
     - name: Build site
       run: |
-        make site
+        make -j site
