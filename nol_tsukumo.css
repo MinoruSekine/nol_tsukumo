@@ -1,4 +1,4 @@
-p.in_to_out_arrow {
+p.in-to-out-arrow {
     text-indent: 4em
 }
 
@@ -16,6 +16,7 @@ span.result{
     display: inline-block;
     width: 10em
 }
+
 textarea.log{
     width: 24em;
     height: 14em
