@@ -51,8 +51,14 @@ $(SITE_OUT_JSDOC_HTML): $(SITE_OUT_JSDOC_DIR) $(SRC_JS)
 
 site-jsdoc: $(SITE_OUT_JSDOC_HTML)
 
-lint:
-	npm install
-	npm run lint
+lint: eslint stylelint
 
-.PHONY: all clean clean-out clean-site site site-jsdoc lint
+eslint:
+	npm install
+	npm run eslint
+
+stylelint:
+	npm install
+	npm run stylelint
+
+.PHONY: all clean clean-out clean-site site site-jsdoc lint eslint stylelint

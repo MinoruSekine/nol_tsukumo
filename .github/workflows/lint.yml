@@ -1,4 +1,4 @@
-name: ESLint
+name: lint
 
 on:
   pull_request:
@@ -16,8 +16,8 @@ jobs:
       with:
         node-version: 18
 
-    - name: Install ESLint
-      run: npm install
-
     - name: ESLint
-      run: npm run lint
+      run: make -j eslint
+
+    - name: stylelint
+      run: make -j stylelint

@@ -5,7 +5,8 @@
   "main": "nol_tsukumo.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint nol_tsukumo.js",
+    "eslint": "eslint nol_tsukumo.js",
+    "stylelint": "stylelint nol_tsukumo.css",
     "doc": "jsdoc . -d out/site/jsdoc"
   },
   "keywords": [],
@@ -14,6 +15,8 @@
   "devDependencies": {
     "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0",
-    "jsdoc": "^4.0.2"
+    "jsdoc": "^4.0.2",
+    "stylelint": "^16.6.1",
+    "stylelint-config-standard": "^36.0.1"
   }
 }
