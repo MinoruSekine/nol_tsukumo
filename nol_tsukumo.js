@@ -335,6 +335,19 @@ class NolTsukumoModel {
     });
   }
   /**
+   * Clear log text.
+   * Result will be notified via
+   * NolTsukumoModelObserverInterface::onLogTextChanged().
+   */
+  clearLogText() {
+    if (this.#logText) {
+      this.#logText = '';
+      this.#observers.forEach((observer) => {
+        observer.onLogTextChanged(this.#logText);
+      });
+    }
+  }
+  /**
    * Register observer of model.
    * @param {NolTsukumoModelObserverInterface} observer - Observer to Register.
    */
@@ -461,6 +474,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
   #currentNumOfActivatedTsukumo = null;
   #gainInput = null;
   #memoButton = null;
+  #memoClearButton = null;
 
   #model = null;
 
@@ -482,6 +496,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
       document.getElementById('active-tsukumo-num-input');
     this.#gainInput = document.getElementById('tsukumo-gain-input');
     this.#memoButton = document.getElementById('memo-button');
+    this.#memoClearButton = document.getElementById('memo-clear-button');
 
     this.#model = model;
     this.#model.registerObserver(this);
@@ -513,6 +528,10 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
 
     this.#memoButton.addEventListener('click', () => {
       this.#model.requestLogText();
+    });
+
+    this.#memoClearButton.addEventListener('click', () => {
+      this.#model.clearLogText();
     });
   }
   /**
