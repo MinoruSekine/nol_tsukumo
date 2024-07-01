@@ -192,15 +192,10 @@ class NolTsukumoModelObserverInterface {
   onUpdateNecessaryTsukumo(exp, source) {
   }
   /**
-   * Call to notify status requested by NolTsukumoModel::requestCurrentResult().
-   * @param {NolTsukumoStatus} currentStatus - Current status of tsukmo
-   * @param {number} toLevel - Expected level
-   * @param {number} gain - Gain
-   * @param {number} tsukumoExp - Necessary tsukumo exp to toLevel
-   * @param {number} tsukumoSource - Necessary tsukumo soruce to toLevel
+   * Call when log text has been changed.
+   * @param {string} logText - Current whole log text.
    */
-  onNotifyRequestedCurrentResult(
-      currentStatus, toLevel, gain, tsukumoExp, tsukumoSource) {
+  onLogTextChanged(logText) {
   }
 }
 
@@ -213,6 +208,7 @@ class NolTsukumoModel {
   #toLevelMin = 1;
   #gain = 1.0;
   #observers = [];
+  #logText = '';
   /**
    * Notify necessary Tsukumo exp and sources to observers.
    */
@@ -226,6 +222,37 @@ class NolTsukumoModel {
     this.#observers.forEach((observer) => {
       observer.onUpdateNecessaryTsukumo(necessaryExp, necessarySource);
     });
+  }
+  /**
+   * Get current calculation result as string.
+   * @return {string} String which represents current calculation result
+   */
+  #getResultString() {
+    const necessaryExp =
+          calcExpToSpecifiedLevel(this.#currentStatus, this.#toLevel);
+    const necessarySource =
+          calcTsukumoSourceToSpecifiedLevel(
+              this.#currentStatus, this.#toLevel, this.#gain);
+    let text = this.#currentStatus.toString();
+    text += '\n';
+
+    text += '目標レベル:';
+    text += String(this.#toLevel);
+    text += ',';
+    text += '倍率:';
+    text += String(this.#gain.toFixed(1));
+    text += '\n';
+
+    text += '　　　　↓\n';
+
+    text += '必要な九十九の源:';
+    text += String(necessarySource);
+    text += ',';
+    text += '経験値:';
+    text += String(necessaryExp);
+    text += '\n';
+
+    return text;
   }
   /**
    * Initialize model instance.
@@ -294,21 +321,31 @@ class NolTsukumoModel {
     this.#notifyNecessaryTsukumo();
   }
   /**
-   * Request calculation result of current configurations.
+   * Request log text to observer.
    * Result will be notified via
-   * NolTsukumoModelObserverInterface::onNotifyRequestedCurrentResult().
+   * NolTsukumoModelObserverInterface::onLogTextChanged().
    */
-  requestCurrentResult() {
+  requestLogText() {
+    if (this.#logText) {
+      this.#logText += '\n';
+    }
+    this.#logText += this.#getResultString();
     this.#observers.forEach((observer) => {
-      const necessaryExp =
-            calcExpToSpecifiedLevel(this.#currentStatus, this.#toLevel);
-      const necessarySource =
-            calcTsukumoSourceToSpecifiedLevel(
-                this.#currentStatus, this.#toLevel, this.#gain);
-      observer.onNotifyRequestedCurrentResult(
-          this.#currentStatus, this.#toLevel, this.#gain,
-          necessaryExp, necessarySource);
+      observer.onLogTextChanged(this.#logText);
     });
+  }
+  /**
+   * Clear log text.
+   * Result will be notified via
+   * NolTsukumoModelObserverInterface::onLogTextChanged().
+   */
+  clearLogText() {
+    if (this.#logText) {
+      this.#logText = '';
+      this.#observers.forEach((observer) => {
+        observer.onLogTextChanged(this.#logText);
+      });
+    }
   }
   /**
    * Register observer of model.
@@ -396,18 +433,6 @@ class NolTsukumoInOutView extends NolTsukumoModelObserverInterface {
 class NolTsukumoLogView extends NolTsukumoModelObserverInterface {
   #logTextarea = null;
   /**
-   * Add text to log area.
-   * @param {string} textToAdd - Text to add into log area.
-   */
-  #addTextToLogArea(textToAdd) {
-    let currentText = this.#logTextarea.value;
-    if (currentText) {
-      currentText += '\n';
-    }
-    this.#logTextarea.value = currentText + textToAdd;
-  }
-
-  /**
    * Scroll log area to bottom.
    */
   #scrollLogAreaToBottom() {
@@ -430,36 +455,11 @@ class NolTsukumoLogView extends NolTsukumoModelObserverInterface {
     model.registerObserver(this);
   }
   /**
-   * Call to notify status requested by NolTsukumoModel::requestCurrentResult().
-   * @param {NolTsukumoStatus} currentStatus - Current status of tsukmo
-   * @param {number} toLevel - Expected level
-   * @param {number} gain - Gain
-   * @param {number} tsukumoExp - Necessary tsukumo exp to toLevel
-   * @param {number} tsukumoSource - Necessary tsukumo soruce to toLevel
+   * Call when log text has been changed.
+   * @param {string} logText - Current whole log text.
    */
-  onNotifyRequestedCurrentResult(
-      currentStatus, toLevel, gain, tsukumoExp, tsukumoSource) {
-    let text = currentStatus.toString();
-    text += '\n';
-
-    text += '目標レベル:';
-    text += String(toLevel);
-    text += ',';
-    text += '倍率:';
-    text += String(gain.toFixed(1));
-    text += '\n';
-
-    text += '　　　　↓\n';
-
-    text += '必要な九十九の源:';
-    text += String(tsukumoSource);
-    text += ',';
-    text += '経験値:';
-    text += String(tsukumoExp);
-    text += '\n';
-
-    this.#addTextToLogArea(text);
-
+  onLogTextChanged(logText) {
+    this.#logTextarea.value = logText;
     this.#scrollLogAreaToBottom();
   }
 }
@@ -474,6 +474,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
   #currentNumOfActivatedTsukumo = null;
   #gainInput = null;
   #memoButton = null;
+  #memoClearButton = null;
 
   #model = null;
 
@@ -495,6 +496,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
       document.getElementById('active-tsukumo-num-input');
     this.#gainInput = document.getElementById('tsukumo-gain-input');
     this.#memoButton = document.getElementById('memo-button');
+    this.#memoClearButton = document.getElementById('memo-clear-button');
 
     this.#model = model;
     this.#model.registerObserver(this);
@@ -525,7 +527,11 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
     });
 
     this.#memoButton.addEventListener('click', () => {
-      this.#model.requestCurrentResult();
+      this.#model.requestLogText();
+    });
+
+    this.#memoClearButton.addEventListener('click', () => {
+      this.#model.clearLogText();
     });
   }
   /**
