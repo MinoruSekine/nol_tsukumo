@@ -208,7 +208,7 @@ class NolTsukumoModel {
   #toLevelMin = 1;
   #gain = 1.0;
   #observers = [];
-  #logText = '';
+  #logTextHistory = [];
   /**
    * Notify necessary Tsukumo exp and sources to observers.
    */
@@ -326,12 +326,17 @@ class NolTsukumoModel {
    * NolTsukumoModelObserverInterface::onLogTextChanged().
    */
   requestLogText() {
-    if (this.#logText) {
-      this.#logText += '\n';
+    let logText = '';
+    if (this.#logTextHistory.length) {
+      logText = this.#logTextHistory.at(-1);
     }
-    this.#logText += this.#getResultString();
+    if (logText) {
+      logText += '\n';
+    }
+    logText += this.#getResultString();
+    this.#logTextHistory.push(logText);
     this.#observers.forEach((observer) => {
-      observer.onLogTextChanged(this.#logText);
+      observer.onLogTextChanged(logText);
     });
   }
   /**
@@ -340,10 +345,10 @@ class NolTsukumoModel {
    * NolTsukumoModelObserverInterface::onLogTextChanged().
    */
   clearLogText() {
-    if (this.#logText) {
-      this.#logText = '';
+    if (this.#logTextHistory.length) {
+      this.#logTextHistory.push('');
       this.#observers.forEach((observer) => {
-        observer.onLogTextChanged(this.#logText);
+        observer.onLogTextChanged('');
       });
     }
   }
