@@ -208,7 +208,7 @@ class NolTsukumoModel {
   #toLevelMin = 1;
   #gain = 1.0;
   #observers = [];
-  #logText = '';
+  #logTextHistory = [];
   /**
    * Notify necessary Tsukumo exp and sources to observers.
    */
@@ -326,12 +326,17 @@ class NolTsukumoModel {
    * NolTsukumoModelObserverInterface::onLogTextChanged().
    */
   requestLogText() {
-    if (this.#logText) {
-      this.#logText += '\n';
+    let logText = '';
+    if (this.#logTextHistory.length) {
+      logText = this.#logTextHistory.at(-1);
     }
-    this.#logText += this.#getResultString();
+    if (logText) {
+      logText += '\n';
+    }
+    logText += this.#getResultString();
+    this.#logTextHistory.push(logText);
     this.#observers.forEach((observer) => {
-      observer.onLogTextChanged(this.#logText);
+      observer.onLogTextChanged(logText);
     });
   }
   /**
@@ -340,10 +345,25 @@ class NolTsukumoModel {
    * NolTsukumoModelObserverInterface::onLogTextChanged().
    */
   clearLogText() {
-    if (this.#logText) {
-      this.#logText = '';
+    if (this.#logTextHistory.length) {
+      this.#logTextHistory.push('');
       this.#observers.forEach((observer) => {
-        observer.onLogTextChanged(this.#logText);
+        observer.onLogTextChanged('');
+      });
+    }
+  }
+  /**
+   * Undo log text change.
+   */
+  undoLogTextChange() {
+    if (this.#logTextHistory.length) {
+      this.#logTextHistory.pop();
+      let latestLogText = '';
+      if (this.#logTextHistory.length) {
+        latestLogText = this.#logTextHistory.at(-1);
+      }
+      this.#observers.forEach((observer) => {
+        observer.onLogTextChanged(latestLogText);
       });
     }
   }
@@ -475,6 +495,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
   #gainInput = null;
   #memoButton = null;
   #memoClearButton = null;
+  #memoUndoButton = null;
 
   #model = null;
 
@@ -497,6 +518,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
     this.#gainInput = document.getElementById('tsukumo-gain-input');
     this.#memoButton = document.getElementById('memo-button');
     this.#memoClearButton = document.getElementById('memo-clear-button');
+    this.#memoUndoButton = document.getElementById('memo-undo-button');
 
     this.#model = model;
     this.#model.registerObserver(this);
@@ -532,6 +554,10 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
 
     this.#memoClearButton.addEventListener('click', () => {
       this.#model.clearLogText();
+    });
+
+    this.#memoUndoButton.addEventListener('click', () => {
+      this.#model.undoLogTextChange();
     });
   }
   /**
