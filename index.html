@@ -33,16 +33,22 @@
       <input type="number" name="to-level" id="to-level-input" value="1" step="1" min="1" max="31">
     </li>
     <li>
-      <label for="tsukumo-gain-input"><span class="target">倍率</span></label>
-      <input type="number" name="tsukumo-gain" id="tsukumo-gain-input" value="1.0" step="0.1" min="1.0" max="2.0">
-      <details>
-	<summary>倍率目安</summary>
-	<ul>
-	  <li>x1.0: 通常時</li>
-	  <li>x1.5: 九十九キャンペーン中</li>
-	  <li>x2.0: もののふの日ボーナス最大</li>
-	</ul>
-      </details>
+      <label for="tsukumo-gain-dropdown"><span class="target">倍率</span></label>
+      <select name="tsukumo-gain" id="tsukumo-gain-dropdown">
+	<optgroup label="通常時">
+	  <option value="1.0">x1.0</option>
+	</optgroup>
+	<optgroup label="九十九キャンペーン中">
+	  <option value="1.5">x1.5</option>
+	</optgroup>
+	<optgroup label="もののふの日ボーナス">
+	  <option value="1.2">x1.2</option>
+	  <option value="1.4">x1.4</option>
+	  <option value="1.6">x1.6</option>
+	  <option value="1.8">x1.8</option>
+	  <option value="2.0">x2.0</option>
+	</optgroup>
+      </select>
     </li>
   </ul>
 

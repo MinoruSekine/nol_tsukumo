@@ -492,7 +492,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
   #currentLevelInput = null;
   #currentExpInput = null;
   #currentNumOfActivatedTsukumo = null;
-  #gainInput = null;
+  #gainDropdown = null;
   #memoButton = null;
   #memoClearButton = null;
   #memoUndoButton = null;
@@ -515,7 +515,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
     this.#currentExpInput = document.getElementById('exp-input');
     this.#currentNumOfActivatedTsukumo =
       document.getElementById('active-tsukumo-num-input');
-    this.#gainInput = document.getElementById('tsukumo-gain-input');
+    this.#gainDropdown = document.getElementById('tsukumo-gain-dropdown');
     this.#memoButton = document.getElementById('memo-button');
     this.#memoClearButton = document.getElementById('memo-clear-button');
     this.#memoUndoButton = document.getElementById('memo-undo-button');
@@ -541,11 +541,9 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
       this.#model.setToLevel(parseInt(this.#toLevelInput.value, 10));
     });
 
-    this.#gainInput.addEventListener('input', () => {
-      const gain = parseFloat(this.#gainInput.value);
+    this.#gainDropdown.addEventListener('change', () => {
+      const gain = parseFloat(this.#gainDropdown.value);
       this.#model.setGain(gain);
-      // Do not omit ".0" even if just integer value.
-      this.#gainInput.value = gain.toFixed(1);
     });
 
     this.#memoButton.addEventListener('click', () => {
