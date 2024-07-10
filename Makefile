@@ -28,7 +28,9 @@ clean-out: clean-site
 clean-site:
 	rm -rf $(SITE_OUT_DIR)
 
-site:  $(SITE_OUT_HTML) $(SITE_OUT_JS) $(SITE_OUT_CSS) site-jsdoc
+site: site-calculator site-jsdoc
+
+site-calculator: $(SITE_OUT_HTML) $(SITE_OUT_JS) $(SITE_OUT_CSS)
 
 $(SITE_OUT_DIR):
 	mkdir -p $@
