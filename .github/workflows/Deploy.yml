@@ -11,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Build site
-      run: |
-        make site
+      - name: Build site
+        run: |
+          make site
 
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3.0.1
-      with:
-        path: ./out/site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3.0.1
+        with:
+          path: ./out/site
 
   deploy:
     needs: upload_artifact
