@@ -11,6 +11,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install jsdoc
+        run: npm install
+
       - name: Build site
         run: |
           make -j site

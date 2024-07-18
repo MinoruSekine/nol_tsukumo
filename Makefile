@@ -48,7 +48,6 @@ $(SITE_OUT_JSDOC_DIR): $(SITE_OUT_DIR)
 	mkdir -p $@
 
 $(SITE_OUT_JSDOC_HTML): $(SITE_OUT_JSDOC_DIR) $(SRC_JS)
-	npm install
 	npm run doc
 
 site-jsdoc: $(SITE_OUT_JSDOC_HTML)
@@ -56,11 +55,9 @@ site-jsdoc: $(SITE_OUT_JSDOC_HTML)
 lint: eslint stylelint
 
 eslint:
-	npm install
 	npm run eslint
 
 stylelint:
-	npm install
 	npm run stylelint
 
 .PHONY: all clean clean-out clean-site site site-jsdoc lint eslint stylelint
