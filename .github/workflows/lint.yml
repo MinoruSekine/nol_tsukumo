@@ -8,16 +8,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out
-      uses: actions/checkout@v4
+      - name: Check out
+        uses: actions/checkout@v4
 
-    - name: Set up node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-    - name: ESLint
-      run: make -j eslint
+      - name: Install linters
+        run: npm install
 
-    - name: stylelint
-      run: make -j stylelint
+      - name: ESLint
+        run: make -j eslint
+
+      - name: stylelint
+        run: make -j stylelint
