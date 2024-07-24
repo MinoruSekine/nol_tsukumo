@@ -1,10 +1,53 @@
+body{
+    font-size: 1em
+}
+
+@media screen and (width <= 768px){
+    body{
+	font-size: 3vw
+    }
+}
+
+h1{
+    font-size: 180%
+}
+
+h2{
+    font-size: 150%
+}
+
+h3{
+    font-size: 125%
+}
+
+p{
+    font-size: 100%
+}
+
+li{
+    font-size: 100%
+}
+
+input{
+    font-size: 100%
+}
+
+select{
+    font-size: 100%
+}
+
+button{
+    font-size: 100%
+}
+
 p.in-to-out-arrow {
     text-indent: 4em
 }
 
 span.input{
     display: inline-block;
-    width: 8em
+    width: 8em;
+    font-size: 100%
 }
 
 span.target{
