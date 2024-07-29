@@ -1,97 +1,98 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link href="nol_tsukumo.css" rel="stylesheet" media="screen" />
-<script src="./nol_tsukumo.js"></script>
-<title>信長の野望online 九十九の源 計算機</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="信長の野望online 九十九の源 計算機は希望の九十九レベルまでに必要な九十九の源の数を計算できます。各種キャンペーンボーナスの倍率にも対応しています。">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="nol_tsukumo.css" rel="stylesheet" media="screen" />
+    <script src="./nol_tsukumo.js"></script>
+    <title>信長の野望online 九十九の源 計算機</title>
+  </head>
 
-  <h1>信長の野望online 九十九の源 計算機</h1>
+  <body>
+    <h1>信長の野望online 九十九の源 計算機</h1>
 
-  <h2>武器の現状</h2>
-  <ul>
-    <li>
-      <label for="current-level-input"><span class="input">九十九レベル</span></label>
-      <input type="number" name="level" id="current-level-input" value="0" step="1" min="0" max="30">
-    </li>
-    <li>
-      <label for="exp-input"><span class="input">九十九経験値</span></label>
-      <input type="number" name="exp" id="exp-input" value="0" step="1" min="0" max="499">
-    </li>
-    <li>
-      <label for="active-tsukumo-num-input"><span class="input">九十九発動数</span></label>
-      <input type="number" name="active-tsukumo-num" id="active-tsukumo-num-input" value="0" step="1" min="0" max="8">
-    </li>
-  </ul>
+    <h2>武器の現状</h2>
+    <ul>
+      <li>
+	<label for="current-level-input"><span class="input">九十九レベル</span></label>
+	<input type="number" name="level" id="current-level-input" value="0" step="1" min="0" max="30">
+      </li>
+      <li>
+	<label for="exp-input"><span class="input">九十九経験値</span></label>
+	<input type="number" name="exp" id="exp-input" value="0" step="1" min="0" max="499">
+      </li>
+      <li>
+	<label for="active-tsukumo-num-input"><span class="input">九十九発動数</span></label>
+	<input type="number" name="active-tsukumo-num" id="active-tsukumo-num-input" value="0" step="1" min="0" max="8">
+      </li>
+    </ul>
 
-  <h2>ターゲット</h2>
-  <ul>
-    <li>
-      <label for="to-level-input"><span class="target">目標の九十九レベル</span></label>
-      <input type="number" name="to-level" id="to-level-input" value="1" step="1" min="1" max="31">
-    </li>
-    <li>
-      <label for="tsukumo-gain-dropdown"><span class="target">倍率</span></label>
-      <select name="tsukumo-gain" id="tsukumo-gain-dropdown">
-	<optgroup label="通常時">
-	  <option value="1.0">x1.0</option>
-	</optgroup>
-	<optgroup label="九十九キャンペーン中">
-	  <option value="1.5">x1.5</option>
-	</optgroup>
-	<optgroup label="もののふの日ボーナス">
-	  <option value="1.2">x1.2</option>
-	  <option value="1.4">x1.4</option>
-	  <option value="1.6">x1.6</option>
-	  <option value="1.8">x1.8</option>
-	  <option value="2.0">x2.0</option>
-	</optgroup>
-      </select>
-    </li>
-  </ul>
+    <h2>ターゲット</h2>
+    <ul>
+      <li>
+	<label for="to-level-input"><span class="target">目標の九十九レベル</span></label>
+	<input type="number" name="to-level" id="to-level-input" value="1" step="1" min="1" max="31">
+      </li>
+      <li>
+	<label for="tsukumo-gain-dropdown"><span class="target">倍率</span></label>
+	<select name="tsukumo-gain" id="tsukumo-gain-dropdown">
+	  <optgroup label="通常時">
+	    <option value="1.0">x1.0</option>
+	  </optgroup>
+	  <optgroup label="九十九キャンペーン中">
+	    <option value="1.5">x1.5</option>
+	  </optgroup>
+	  <optgroup label="もののふの日ボーナス">
+	    <option value="1.2">x1.2</option>
+	    <option value="1.4">x1.4</option>
+	    <option value="1.6">x1.6</option>
+	    <option value="1.8">x1.8</option>
+	    <option value="2.0">x2.0</option>
+	  </optgroup>
+	</select>
+      </li>
+    </ul>
 
-  <p class="in-to-out-arrow">
-    ↓
-  </p>
+    <p class="in-to-out-arrow">
+      ↓
+    </p>
 
-  <h2>必要な九十九</h2>
-  <ul>
-    <li>
-      <label for="tsukumo-source-input"><span class="result">必要な九十九の源</span></label>
-      <input type="number" name="tsukumo-source" id="tsukumo-source-input" value="0" min="0" max="999999" readonly>
-    </li>
-    <li>
-      <label for="tsukumo-exp-input"><span class="result">必要な経験値</span></label>
-      <input type="number" name="tsukumo-exp" id="tsukumo-exp-input" value="0" min="0" max="9999999" readonly>
-    </li>
-  </ul>
+    <h2>必要な九十九</h2>
+    <ul>
+      <li>
+	<label for="tsukumo-source-input"><span class="result">必要な九十九の源</span></label>
+	<input type="number" name="tsukumo-source" id="tsukumo-source-input" value="0" min="0" max="999999" readonly>
+      </li>
+      <li>
+	<label for="tsukumo-exp-input"><span class="result">必要な経験値</span></label>
+	<input type="number" name="tsukumo-exp" id="tsukumo-exp-input" value="0" min="0" max="9999999" readonly>
+      </li>
+    </ul>
 
-  <hr>
+    <hr>
 
-  <h2>メモ</h2>
+    <h2>メモ</h2>
 
-  <p>
-    <button type="button" id="memo-button">今の計算結果をメモ</button>
-    <button type="button" id="memo-clear-button">クリア</button>
-    <button type="button" id="memo-undo-button">元に戻す</button>
-  </p>
+    <p>
+      <button type="button" id="memo-button">今の計算結果をメモ</button>
+      <button type="button" id="memo-clear-button">クリア</button>
+      <button type="button" id="memo-undo-button">元に戻す</button>
+    </p>
 
-  <p>
-    <textarea class="log" id="log-textarea" readonly></textarea>
-  </p>
+    <p>
+      <textarea class="log" id="log-textarea" readonly></textarea>
+    </p>
 
-  <hr>
+    <hr>
 
-  <p>
-    Version: NolTsukumoVersion (NolTsukumoDateTime)
-  </p>
+    <p>
+      Version: NolTsukumoVersion (NolTsukumoDateTime)
+    </p>
 
-  <p>
-    GitHub: <a href="https://github.com/MinoruSekine/nol_tsukumo">Source</a> | <a href="https://github.com/MinoruSekine/nol_tsukumo/issues">Issue tracker</a>
-  </p>
+    <p>
+      GitHub: <a href="https://github.com/MinoruSekine/nol_tsukumo">Source</a> | <a href="https://github.com/MinoruSekine/nol_tsukumo/issues">Issue tracker</a>
+    </p>
 
-</body>
+  </body>
 </html>
