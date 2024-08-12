@@ -4,20 +4,32 @@ body{
 
 @media screen and (width <= 768px){
     body{
-	font-size: 3vw
+	font-size: 5vw;
+    }
+
+    input{
+	margin-top: 0.5em
+    }
+
+    select{
+	margin-top: 0.5em
     }
 }
 
 h1{
-    font-size: 180%
+    font-size: 150%;
+
+    span {
+	white-space: nowrap
+    }
 }
 
 h2{
-    font-size: 150%
+    font-size: 125%
 }
 
 h3{
-    font-size: 125%
+    font-size: 110%
 }
 
 p{
@@ -29,11 +41,11 @@ li{
 }
 
 input{
-    font-size: 100%
+    font-size: 100%;
 }
 
 select{
-    font-size: 100%
+    font-size: 100%;
 }
 
 button{
