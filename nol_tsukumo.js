@@ -514,7 +514,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
     this.#currentLevelInput = document.getElementById('current-level-input');
     this.#currentExpInput = document.getElementById('exp-input');
     this.#currentNumOfActivatedTsukumo =
-      document.getElementById('active-tsukumo-num-input');
+      document.getElementById('active-tsukumo-num-select');
     this.#gainDropdown = document.getElementById('tsukumo-gain-dropdown');
     this.#memoButton = document.getElementById('memo-button');
     this.#memoClearButton = document.getElementById('memo-clear-button');
@@ -531,7 +531,7 @@ class NolTsukumoController extends NolTsukumoModelObserverInterface {
       this.#model.setCurrentExp(parseInt(this.#currentExpInput.value, 10));
     });
 
-    this.#currentNumOfActivatedTsukumo.addEventListener('input', () => {
+    this.#currentNumOfActivatedTsukumo.addEventListener('change', () => {
       const numActivated =
             parseInt(this.#currentNumOfActivatedTsukumo.value, 10);
       this.#model.setCurrentNumOfActuvatedTsukumo(numActivated);
