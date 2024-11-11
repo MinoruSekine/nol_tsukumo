@@ -81,7 +81,7 @@ function getExpToNextLevel(level) {
     5456,
     7130,
     9255,
-    11935,
+    11953,
     15381,
     19734,
     25262,
