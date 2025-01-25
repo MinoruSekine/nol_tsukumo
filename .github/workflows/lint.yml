@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  eslint:
+  tslint:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,13 +14,13 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Install linters
         run: npm install
 
-      - name: ESLint
-        run: make -j eslint
+      - name: tslint
+        run: make -j tslint
 
   stylelint:
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Install linters
         run: npm install
