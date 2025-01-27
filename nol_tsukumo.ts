@@ -433,14 +433,14 @@ class NolTsukumoInOutView implements NolTsukumoModelObserverInterface {
    * Call when current level has been updated.
    * @param {number} level - Updated current level
    */
-  onUpdateCurrentLevel(level: number) {
+  onUpdateCurrentLevel(_level: number) {
     return;
   }
   /**
    * Call when max exp of current level has been updated.
    * @param {number} maxExp - Updated max exp of current level
    */
-  onUpdateMaxExpOfCurrentLevel(maxExp: number) {
+  onUpdateMaxExpOfCurrentLevel(_maxExp: number) {
     return;
   }
   /**
@@ -454,7 +454,7 @@ class NolTsukumoInOutView implements NolTsukumoModelObserverInterface {
    * Call when min of to level has been updated.
    * @param {number} toLevelMin - Updated min of "to level"
    */
-  onUpdateToLevelMin(toLevelMin: number) {
+  onUpdateToLevelMin(_toLevelMin: number) {
     return;
   }
   /**
@@ -470,7 +470,7 @@ class NolTsukumoInOutView implements NolTsukumoModelObserverInterface {
    * Call when log text has been changed.
    * @param {string} logText - Current whole log text.
    */
-  onLogTextChanged(logText: string) {
+  onLogTextChanged(_logText: string) {
     return;
   }
 }
@@ -504,35 +504,35 @@ class NolTsukumoLogView implements NolTsukumoModelObserverInterface {
    * Call when current exp has been updated.
    * @param {number} exp - Updated current exp
    */
-  onUpdateCurrentExp(exp: number) {
+  onUpdateCurrentExp(_exp: number) {
     return;
   }
   /**
    * Call when current level has been updated.
    * @param {number} level - Updated current level
    */
-  onUpdateCurrentLevel(level: number) {
+  onUpdateCurrentLevel(_level: number) {
     return;
   }
   /**
    * Call when max exp of current level has been updated.
    * @param {number} maxExp - Updated max exp of current level
    */
-  onUpdateMaxExpOfCurrentLevel(maxExp: number) {
+  onUpdateMaxExpOfCurrentLevel(_maxExp: number) {
     return;
   }
   /**
    * Call when to level has been updated.
    * @param {number} toLevel - Updated "to level"
    */
-  onUpdateToLevel(toLevel: number) {
+  onUpdateToLevel(_toLevel: number) {
     return;
   }
   /**
    * Call when min of to level has been updated.
    * @param {number} toLevelMin - Updated min of "to level"
    */
-  onUpdateToLevelMin(toLevelMin: number) {
+  onUpdateToLevelMin(_toLevelMin: number) {
     return;
   }
   /**
@@ -540,7 +540,7 @@ class NolTsukumoLogView implements NolTsukumoModelObserverInterface {
    * @param {number} exp - Updated exp to specified level.
    * @param {number} source - Updated number of source to specified level.
    */
-  onUpdateNecessaryTsukumo(exp: number, source: number) {
+  onUpdateNecessaryTsukumo(_exp: number, _source: number) {
     return;
   }
   /**
@@ -661,7 +661,7 @@ class NolTsukumoController implements NolTsukumoModelObserverInterface {
    * Call when current exp has been updated.
    * @param {number} exp - Updated max exp of current level
    */
-  onUpdateCurrentExp(exp: number) {
+  onUpdateCurrentExp(_exp: number) {
     return;
   }
   /**
@@ -685,7 +685,7 @@ class NolTsukumoController implements NolTsukumoModelObserverInterface {
    * Call when to level has been updated.
    * @param {number} toLevel - Updated "to level"
    */
-  onUpdateToLevel(toLevel: number) {
+  onUpdateToLevel(_toLevel: number) {
     return;
   }
   /**
@@ -700,14 +700,14 @@ class NolTsukumoController implements NolTsukumoModelObserverInterface {
    * @param {number} exp - Updated exp to specified level.
    * @param {number} source - Updated number of source to specified level.
    */
-  onUpdateNecessaryTsukumo(exp: number, source: number) {
+  onUpdateNecessaryTsukumo(_exp: number, _source: number) {
     return;
   }
   /**
    * Call when log text has been changed.
    * @param {string} logText - Current whole log text.
    */
-  onLogTextChanged(logText: string) {
+  onLogTextChanged(_logText: string) {
     return;
   }
 }

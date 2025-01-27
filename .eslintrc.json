@@ -1,5 +1,16 @@
 {
   "extends": "./node_modules/gts/",
   "env": {"es6": true},
-  "globals": {"window": true, "document": true}
+  "globals": {"window": true, "document": true},
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_"
+      }
+    ]
+  }
 }
