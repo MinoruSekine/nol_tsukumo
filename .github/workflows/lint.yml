@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  tslint:
+  TypeScript:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
       - name: tslint
         run: make -j tslint
 
-  stylelint:
+  CSS:
     runs-on: ubuntu-latest
 
     steps:
