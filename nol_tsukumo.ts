@@ -27,9 +27,9 @@
  * Tsukumo status of a weapon.
  */
 class NolTsukumoStatus {
-  level;
-  exp;
-  numOfActivatedTsukumo;
+  public level: number;
+  public exp: number;
+  public numOfActivatedTsukumo: number;
 
   /**
    * Constructor.
