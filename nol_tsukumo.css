@@ -1,81 +1,81 @@
 body{
-    font-size: 1em;
-    font-family: system-ui
+  font-size: 1em;
+  font-family: system-ui
 }
 
 @media screen and (width <= 768px){
-    body{
-	font-size: 5vw;
-    }
+  body{
+    font-size: 5vw;
+  }
 
-    input{
-	margin-top: 0.5em
-    }
+  input{
+    margin-top: 0.5em
+  }
 
-    select{
-	margin-top: 0.5em
-    }
+  select{
+    margin-top: 0.5em
+  }
 }
 
 h1{
-    font-size: 150%;
+  font-size: 150%;
 
-    span {
-	white-space: nowrap
-    }
+  span {
+    white-space: nowrap
+  }
 }
 
 h2{
-    font-size: 125%
+  font-size: 125%
 }
 
 h3{
-    font-size: 110%
+  font-size: 110%
 }
 
 p{
-    font-size: 100%
+  font-size: 100%
 }
 
 li{
-    font-size: 100%
+  font-size: 100%
 }
 
 input{
-    font-size: 100%;
+  font-size: 100%;
 }
 
 select{
-    font-size: 100%;
+  font-size: 100%;
 }
 
 button{
-    font-size: 100%
+  font-size: 100%
 }
 
 p.in-to-out-arrow {
-    text-indent: 4em
+  text-indent: 4em
 }
 
 span.input{
-    display: inline-block;
-    width: 8em;
-    font-size: 100%
+  display: inline-block;
+  width: 8em;
+  font-size: 100%
 }
 
 span.target{
-    display: inline-block;
-    width: 10em
+  display: inline-block;
+  width: 10em
 }
 
 span.result{
-    display: inline-block;
-    width: 10em
+  display: inline-block;
+  width: 10em
 }
 
 textarea.log{
-    width: 19em;
-    height: 14em;
-    font-family: inherit;
-    font-size: 100%
+  width: 19em;
+  height: 14em;
+  font-family: inherit;
+  font-size: 100%
 }
