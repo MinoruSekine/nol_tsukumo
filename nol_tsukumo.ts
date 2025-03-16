@@ -280,21 +280,25 @@ class NolTsukumoModel {
    */
   setCurrentLevel(level: number) {
     this.currentStatus.level = level;
+    const max = getExpToNextLevel(level) - 1;
+
     this.observers.forEach((observer: NolTsukumoModelObserverInterface) => {
       observer.onUpdateCurrentLevel(level);
-
-      const max = getExpToNextLevel(level) - 1;
       observer.onUpdateMaxExpOfCurrentLevel(max);
-
-      if (this.currentStatus.level >= this.toLevelMin) {
-        this.toLevelMin = this.currentStatus.level + 1;
-        observer.onUpdateToLevelMin(this.toLevelMin);
-        if (this.toLevel < this.toLevelMin) {
-          this.toLevel = this.toLevelMin;
-          observer.onUpdateToLevel(this.toLevel);
-        }
-      }
     });
+
+    if (this.currentStatus.level >= this.toLevelMin) {
+      this.toLevelMin = this.currentStatus.level + 1;
+      this.observers.forEach((observer: NolTsukumoModelObserverInterface) => {
+        observer.onUpdateToLevelMin(this.toLevelMin);
+      });
+      if (this.toLevel < this.toLevelMin) {
+        this.toLevel = this.toLevelMin;
+        this.observers.forEach((observer: NolTsukumoModelObserverInterface) => {
+          observer.onUpdateToLevel(this.toLevel);
+        });
+      }
+    }
     this.notifyNecessaryTsukumo();
   }
   /**
