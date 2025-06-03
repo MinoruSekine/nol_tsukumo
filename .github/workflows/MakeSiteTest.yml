@@ -2,6 +2,8 @@ name: Test for make site
 
 on:
   pull_request:
+  schedule:
+    - cron: 30 2 * * 5
 
 jobs:
   test:
