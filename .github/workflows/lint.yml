@@ -2,6 +2,8 @@ name: lint
 
 on:
   pull_request:
+  schedule:
+    - cron: 30 2 * * 5
 
 jobs:
   TypeScript:
@@ -21,6 +23,17 @@ jobs:
 
       - name: tslint
         run: make -j tslint
+  HTML5Validator:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Validate HTML5
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: ./
 
   CSS:
     runs-on: ubuntu-latest
