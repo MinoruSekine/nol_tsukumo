@@ -41,6 +41,10 @@ li{
   font-size: 100%
 }
 
+img.badge{
+  vertical-align: text-bottom;
+}
+
 input{
   font-size: 100%;
   margin-bottom: 0.5em;
