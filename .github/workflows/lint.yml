@@ -52,3 +52,15 @@ jobs:
 
       - name: stylelint
         run: make -j stylelint
+
+  markdown-lint:
+    name: Lint markdown files.
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Check syntax of markdown
+        uses: DavidAnson/markdownlint-cli2-action@v20
