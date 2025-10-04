@@ -2,7 +2,7 @@
 
 ## 信長の野望 Online 九十九の源 計算機
 
-[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/MinoruSekine)
+[![GitHub Sponsors](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/MinoruSekine)
 
 ![Status of MakeSiteTest](https://github.com/MinoruSekine/nol_tsukumo/actions/workflows/MakeSiteTest.yml/badge.svg?event=schedule)
 ![Status of lint](https://github.com/MinoruSekine/nol_tsukumo/actions/workflows/lint.yml/badge.svg?event=schedule)
