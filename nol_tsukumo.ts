@@ -4,7 +4,7 @@
  *           of Nobunaga's ambition Online.
  *
  * @author Minoru Sekine
- * @copyright Copyrght 2024 Minoru Sekine
+ * @copyright Copyright 2024 Minoru Sekine
  */
 
 /*
